@@ -1,3 +1,9 @@
-from django.shortcuts import render
+"""Views for analytics app."""
+from rest_framework import viewsets
+from analytics.models import DailySalesReport
 
-# Create your views here.
+
+class DailySalesReportViewSet(viewsets.ModelViewSet):
+    """API endpoint for daily sales reports."""
+    queryset = DailySalesReport.objects.all()
+

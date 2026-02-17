@@ -1,3 +1,19 @@
-from django.shortcuts import render
+"""Views for reservations app."""
+from rest_framework import viewsets
+from reservations.models import Reservation
 
-# Create your views here.
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    """API endpoint for reservations."""
+    queryset = Reservation.objects.all()
+    
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == 'CUSTOMER':
+            return Reservation.objects.filter(user=user)
+        elif user.role == 'RESTAURANT_OWNER':
+            return Reservation.objects.filter(restaurant__owner=user)
+        elif user.role == 'ADMIN':
+            return Reservation.objects.all()
+        return Reservation.objects.none()
+

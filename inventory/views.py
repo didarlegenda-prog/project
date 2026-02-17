@@ -1,3 +1,14 @@
-from django.shortcuts import render
+"""Views for inventory app."""
+from rest_framework import viewsets
+from inventory.models import InventoryItem, StockMovement
 
-# Create your views here.
+
+class InventoryItemViewSet(viewsets.ModelViewSet):
+    """API endpoint for inventory items."""
+    queryset = InventoryItem.objects.all()
+
+
+class StockMovementViewSet(viewsets.ModelViewSet):
+    """API endpoint for stock movements."""
+    queryset = StockMovement.objects.all()
+

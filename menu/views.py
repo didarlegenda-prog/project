@@ -1,3 +1,14 @@
-from django.shortcuts import render
+"""Views for menu app."""
+from rest_framework import viewsets
+from menu.models import MenuCategory, MenuItem
 
-# Create your views here.
+
+class MenuCategoryViewSet(viewsets.ModelViewSet):
+    """API endpoint for menu categories."""
+    queryset = MenuCategory.objects.all()
+
+
+class MenuItemViewSet(viewsets.ModelViewSet):
+    """API endpoint for menu items."""
+    queryset = MenuItem.objects.all()
+
