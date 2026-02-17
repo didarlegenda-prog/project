@@ -172,7 +172,7 @@ const Header = ({ onMenuClick }) => {
               <div className="flex items-center space-x-2">
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-sm font-semibold text-white bg-gray-800 border-2 border-gray-800 rounded-lg hover:bg-gray-900 hover:border-gray-900 transition-all"
+                  className="px-4 py-2 text-sm font-semibold text-white bg-dark-800 border-2 border-dark-800 rounded-lg hover:bg-dark-900 hover:border-dark-900 transition-all"
                 >
                   Sign In
                 </Link>

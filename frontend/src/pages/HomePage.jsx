@@ -22,9 +22,11 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams);
     if (searchQuery) {
       params.set('search', searchQuery);
+    } else {
+      params.delete('search');
     }
     setSearchParams(params);
   };
