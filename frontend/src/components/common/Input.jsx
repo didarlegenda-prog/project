@@ -13,7 +13,7 @@ const Input = forwardRef(({
   return (
     <div className="w-full">
       {label && (
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-dark-700 mb-1">
           {label}
           {required && <span className="text-error ml-1">*</span>}
         </label>
@@ -22,13 +22,13 @@ const Input = forwardRef(({
         ref={ref}
         type={type}
         placeholder={placeholder}
-        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent ${
-          error ? 'border-error' : 'border-gray-300'
+        className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-dark-900 ${
+          error ? 'border-error' : 'border-dark-300'
         } ${className}`}
         {...props}
       />
       {helperText && !error && (
-        <p className="mt-1 text-sm text-gray-500">{helperText}</p>
+        <p className="mt-1 text-sm text-dark-500">{helperText}</p>
       )}
       {error && (
         <p className="mt-1 text-sm text-error">{error}</p>

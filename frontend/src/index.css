@@ -1,6 +1,40 @@
 @import "tailwindcss";
 
 body {
-  background-color: #f9fafb;
+  background-color: #F9FAFB;
   color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Улучшенная читаемость текста */
+h1, h2, h3, h4, h5, h6 {
+  color: #111827;
+  font-weight: 600;
+}
+
+/* Ссылки с лучшим контрастом */
+a {
+  color: #2563EB;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #1D4ED8;
+}
+
+/* Улучшенные инпуты */
+input, textarea, select {
+  color: #111827 !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #9CA3AF !important;
+}
+
+/* Фокус для доступности */
+input:focus, textarea:focus, select:focus, button:focus {
+  outline: 2px solid #2563EB;
+  outline-offset: 2px;
 }

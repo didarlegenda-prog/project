@@ -39,14 +39,14 @@ const Header = ({ onMenuClick }) => {
   };
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-40">
+    <header className="bg-white shadow-sm sticky top-0 z-40 border-b border-dark-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left: Logo and Menu */}
           <div className="flex items-center">
             <button
               onClick={onMenuClick}
-              className="lg:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:outline-none"
+              className="lg:hidden p-2 rounded-md text-dark-600 hover:text-dark-900 hover:bg-dark-100 focus:outline-none"
             >
               <Menu className="h-6 w-6" />
             </button>
@@ -65,9 +65,9 @@ const Header = ({ onMenuClick }) => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search restaurants..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  className="w-full pl-10 pr-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-dark-900"
                 />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-dark-400" />
               </div>
             </form>
           </div>
@@ -77,7 +77,7 @@ const Header = ({ onMenuClick }) => {
             {/* Cart */}
             <Link
               to="/cart"
-              className="relative p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="relative p-2 rounded-md text-dark-600 hover:text-dark-900 hover:bg-dark-100"
             >
               <ShoppingCart className="h-6 w-6" />
               {itemCount > 0 && (
@@ -91,7 +91,7 @@ const Header = ({ onMenuClick }) => {
             {isAuthenticated && (
               <Link
                 to="/notifications"
-                className="relative p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                className="relative p-2 rounded-md text-dark-600 hover:text-dark-900 hover:bg-dark-100"
               >
                 <Bell className="h-6 w-6" />
                 {unreadCount > 0 && (
@@ -107,7 +107,7 @@ const Header = ({ onMenuClick }) => {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  className="flex items-center space-x-2 p-2 rounded-md text-dark-600 hover:text-dark-900 hover:bg-dark-100"
                 >
                   <User className="h-6 w-6" />
                   <span className="hidden md:inline-block text-sm font-medium">
@@ -116,10 +116,10 @@ const Header = ({ onMenuClick }) => {
                 </button>
 
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 border border-gray-200">
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-1 border border-dark-200">
                     <Link
                       to="/profile"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-dark-700 hover:bg-dark-100"
                       onClick={() => setShowUserMenu(false)}
                     >
                       <User className="h-4 w-4 mr-2" />
@@ -127,7 +127,7 @@ const Header = ({ onMenuClick }) => {
                     </Link>
                     <Link
                       to="/orders"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-dark-700 hover:bg-dark-100"
                       onClick={() => setShowUserMenu(false)}
                     >
                       <ShoppingCart className="h-4 w-4 mr-2" />
@@ -135,7 +135,7 @@ const Header = ({ onMenuClick }) => {
                     </Link>
                     <Link
                       to="/reservations"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-dark-700 hover:bg-dark-100"
                       onClick={() => setShowUserMenu(false)}
                     >
                       <Settings className="h-4 w-4 mr-2" />
@@ -143,7 +143,7 @@ const Header = ({ onMenuClick }) => {
                     </Link>
                     <Link
                       to="/addresses"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-dark-700 hover:bg-dark-100"
                       onClick={() => setShowUserMenu(false)}
                     >
                       <Settings className="h-4 w-4 mr-2" />
@@ -151,7 +151,7 @@ const Header = ({ onMenuClick }) => {
                     </Link>
                     <Link
                       to="/support"
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="flex items-center px-4 py-2 text-sm text-dark-700 hover:bg-dark-100"
                       onClick={() => setShowUserMenu(false)}
                     >
                       <Settings className="h-4 w-4 mr-2" />
@@ -160,7 +160,7 @@ const Header = ({ onMenuClick }) => {
                     <hr className="my-1" />
                     <button
                       onClick={handleLogout}
-                      className="flex items-center w-full px-4 py-2 text-sm text-error hover:bg-gray-100"
+                      className="flex items-center w-full px-4 py-2 text-sm text-error hover:bg-dark-100"
                     >
                       <LogOut className="h-4 w-4 mr-2" />
                       Logout
@@ -171,7 +171,7 @@ const Header = ({ onMenuClick }) => {
             ) : (
               <Link
                 to="/login"
-                className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-600"
+                className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-700"
               >
                 Sign In
               </Link>
@@ -189,9 +189,9 @@ const Header = ({ onMenuClick }) => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search restaurants..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="w-full pl-10 pr-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-dark-900"
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-dark-400" />
           </div>
         </form>
       </div>
