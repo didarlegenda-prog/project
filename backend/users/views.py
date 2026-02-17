@@ -5,6 +5,7 @@ from rest_framework import status, generics, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes  # ← ДОБАВЬ
 from django.contrib.auth import authenticate
 from users.models import User, Address, UserProfile
 from users.serializers.user_serializers import (
@@ -27,6 +28,19 @@ class UserRegistrationView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [AllowAny]
     serializer_class = UserRegistrationSerializer
+
+
+# ← ДОБАВЬ ЭТО НОВЫЙ VIEW
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_current_user(request):
+    """
+    API endpoint to get current authenticated user.
+    
+    get: Get current user's information.
+    """
+    serializer = UserSerializer(request.user)
+    return Response(serializer.data)
 
 
 class UserProfileView(generics.RetrieveAPIView):
@@ -140,4 +154,3 @@ class AddressViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-

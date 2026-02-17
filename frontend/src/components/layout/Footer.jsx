@@ -3,99 +3,105 @@ import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react'
 
 const Footer = () => {
   return (
-    <footer className="bg-dark-900 text-white mt-auto">
+    <footer className="bg-black text-gray-200 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+
           {/* About */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">About FoodApp</h3>
-            <p className="text-dark-400 text-sm">
+            <h3 className="text-lg font-semibold text-white mb-4">
+              About FoodApp
+            </h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
               Your favorite food delivery service. Order from the best restaurants in your area.
             </p>
+
             <div className="flex space-x-4 mt-4">
-              <a href="#" className="text-dark-400 hover:text-white transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-dark-400 hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-dark-400 hover:text-white transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
+              {[Facebook, Twitter, Instagram].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Quick Links
+            </h3>
             <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-dark-400 hover:text-white text-sm transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/orders" className="text-dark-400 hover:text-white text-sm transition-colors">
-                  Orders
-                </Link>
-              </li>
-              <li>
-                <Link to="/reservations" className="text-dark-400 hover:text-white text-sm transition-colors">
-                  Reservations
-                </Link>
-              </li>
-              <li>
-                <Link to="/support" className="text-dark-400 hover:text-white text-sm transition-colors">
-                  Support
-                </Link>
-              </li>
+              {[
+                ['/', 'Home'],
+                ['/orders', 'Orders'],
+                ['/reservations', 'Reservations'],
+                ['/support', 'Support'],
+              ].map(([to, label]) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="text-gray-400 hover:text-white text-sm transition-colors"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Account */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Account</h3>
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Account
+            </h3>
             <ul className="space-y-2">
-              <li>
-                <Link to="/profile" className="text-dark-400 hover:text-white text-sm transition-colors">
-                  Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/addresses" className="text-dark-400 hover:text-white text-sm transition-colors">
-                  Addresses
-                </Link>
-              </li>
-              <li>
-                <Link to="/notifications" className="text-dark-400 hover:text-white text-sm transition-colors">
-                  Notifications
-                </Link>
-              </li>
+              {[
+                ['/profile', 'Profile'],
+                ['/addresses', 'Addresses'],
+                ['/notifications', 'Notifications'],
+              ].map(([to, label]) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="text-gray-400 hover:text-white text-sm transition-colors"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <ul className="space-y-2">
-              <li className="flex items-start">
-                <Mail className="h-5 w-5 text-dark-400 mr-2 mt-0.5" />
-                <span className="text-dark-400 text-sm">support@foodapp.com</span>
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Contact Us
+            </h3>
+            <ul className="space-y-3">
+              <li className="flex items-start text-sm text-gray-400">
+                <Mail className="h-5 w-5 mr-2 text-gray-500" />
+                support@foodapp.com
               </li>
-              <li className="flex items-start">
-                <Phone className="h-5 w-5 text-dark-400 mr-2 mt-0.5" />
-                <span className="text-dark-400 text-sm">+1 (555) 123-4567</span>
+              <li className="flex items-start text-sm text-gray-400">
+                <Phone className="h-5 w-5 mr-2 text-gray-500" />
+                +1 (555) 123-4567
               </li>
-              <li className="flex items-start">
-                <MapPin className="h-5 w-5 text-dark-400 mr-2 mt-0.5" />
-                <span className="text-dark-400 text-sm">123 Food Street, NYC, 10001</span>
+              <li className="flex items-start text-sm text-gray-400">
+                <MapPin className="h-5 w-5 mr-2 text-gray-500" />
+                123 Food Street, NYC, 10001
               </li>
             </ul>
           </div>
+
         </div>
 
-        <div className="mt-8 pt-8 border-t border-dark-800 text-center">
-          <p className="text-dark-400 text-sm">
+        {/* Bottom */}
+        <div className="mt-10 pt-6 border-t border-gray-800 text-center">
+          <p className="text-gray-500 text-sm">
             © {new Date().getFullYear()} FoodApp. All rights reserved.
           </p>
         </div>

@@ -1,5 +1,6 @@
 """Views for notifications app."""
 from rest_framework import viewsets
+from rest_framework.decorators import api_view, permission_classes  # ← ДОБАВЬ
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -35,3 +36,19 @@ class NotificationSettingsView(APIView):
         return Response(serializer.errors, status=400)
 
 
+# ← ДОБАВЬ ЭТУ ФУНКЦИЮ
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_unread_count(request):
+    """
+    Get count of unread notifications for current user.
+    
+    Returns:
+        {"count": <number_of_unread_notifications>}
+    """
+    count = Notification.objects.filter(
+        user=request.user,
+        is_read=False
+    ).count()
+    
+    return Response({'count': count})

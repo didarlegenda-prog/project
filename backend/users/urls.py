@@ -16,6 +16,7 @@ urlpatterns = [
     
     # User registration and profile
     path('register/', views.UserRegistrationView.as_view(), name='user-register'),
+    path('me/', views.get_current_user, name='current-user'),  # ← ДОБАВЬ ЭТУ СТРОКУ
     path('profile/', views.UserProfileView.as_view(), name='user-profile'),
     path('profile/update/', views.UserProfileUpdateView.as_view(), name='user-profile-update'),
     path('change-password/', views.ChangePasswordView.as_view(), name='change-password'),
