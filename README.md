@@ -229,14 +229,14 @@ CELERY_RESULT_BACKEND=redis://localhost:6379/0
 ## 📦 Dependencies
 
 Core dependencies:
-- Django 4.2.7
+- Django 4.2.28 (latest secure version)
 - Django REST Framework 3.14.0
 - djangorestframework-simplejwt 5.3.0
 - drf-yasg 1.21.7 (API documentation)
 - celery 5.3.4
 - redis 5.0.1
 - stripe 7.7.0
-- Pillow 10.1.0
+- Pillow 10.3.0 (patched version)
 
 See `requirements.txt` for complete list.
 
