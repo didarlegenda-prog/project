@@ -14,13 +14,13 @@ const Button = ({
   
   const variants = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 border-2 border-blue-600',
-    secondary: 'bg-dark-200 text-dark-900 hover:bg-dark-300 focus:ring-dark-500',
+    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 active:bg-gray-400 border-2 border-gray-200',
     success: 'bg-green-600 text-white hover:bg-green-700 active:bg-green-800 border-2 border-green-600',
     danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 border-2 border-red-600',
     dark: 'bg-gray-800 text-white hover:bg-gray-900 active:bg-black border-2 border-gray-800',
     warning: 'bg-orange-600 text-white hover:bg-orange-700 active:bg-orange-800 border-2 border-orange-600',
     outline: 'bg-white text-blue-700 border-2 border-blue-600 hover:bg-blue-50 active:bg-blue-100',
-    ghost: 'text-primary hover:bg-primary-50 focus:ring-primary-500 shadow-none',
+    ghost: 'text-blue-600 hover:bg-blue-50 focus:ring-blue-500 shadow-none',
   };
   
   const sizes = {

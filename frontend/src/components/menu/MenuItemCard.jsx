@@ -24,8 +24,8 @@ const MenuItemCard = ({ item, onAddToCart }) => {
             {item.is_available ? (
               <Button
                 size="sm"
+                variant="primary"
                 onClick={() => onAddToCart(item)}
-                className="bg-blue-600 text-white font-bold hover:bg-blue-700 shadow-lg border-2 border-blue-600"
               >
                 <Plus className="h-4 w-4 mr-1" />
                 Add to Cart
