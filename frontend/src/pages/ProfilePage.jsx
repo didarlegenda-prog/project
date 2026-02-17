@@ -169,6 +169,8 @@ const ProfilePage = () => {
               {!isEditing ? (
                 <Button
                   type="button"
+                  variant="primary"
+                  size="md"
                   onClick={() => setIsEditing(true)}
                 >
                   Edit Profile
@@ -177,6 +179,7 @@ const ProfilePage = () => {
                 <>
                   <Button
                     type="submit"
+                    variant="success"
                     loading={isSaving}
                   >
                     Save Changes

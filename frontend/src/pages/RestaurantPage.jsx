@@ -130,8 +130,9 @@ const RestaurantPage = () => {
               {/* Reserve Table Button */}
               <div className="mt-4">
                 <Button 
+                  variant="primary"
                   onClick={handleReservation}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto font-bold shadow-lg"
                   size="lg"
                 >
                   <Calendar className="mr-2 h-5 w-5" />

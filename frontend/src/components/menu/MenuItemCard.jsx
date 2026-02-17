@@ -25,10 +25,10 @@ const MenuItemCard = ({ item, onAddToCart }) => {
               <Button
                 size="sm"
                 onClick={() => onAddToCart(item)}
-                className="flex items-center"
+                className="bg-blue-600 text-white font-bold hover:bg-blue-700 shadow-lg border-2 border-blue-600"
               >
                 <Plus className="h-4 w-4 mr-1" />
-                Add
+                Add to Cart
               </Button>
             ) : (
               <span className="text-sm text-error font-medium">
