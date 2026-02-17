@@ -10,21 +10,25 @@ const Button = ({
   className = '',
   ...props
 }) => {
-  const baseStyles = 'font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'font-bold rounded-lg shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
-    primary: 'bg-primary text-white hover:bg-primary-700 focus:ring-primary-500',
-    secondary: 'bg-dark-200 text-dark-900 hover:bg-dark-300 focus:ring-dark-500',
-    success: 'bg-success text-white hover:bg-success-700 focus:ring-success-500',
-    danger: 'bg-error text-white hover:bg-error-700 focus:ring-error-500',
-    outline: 'border-2 border-primary text-primary hover:bg-primary-50 focus:ring-primary-500',
-    ghost: 'text-primary hover:bg-primary-50 focus:ring-primary-500',
+    primary: 'bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 border-2 border-blue-600',
+    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 active:bg-gray-400 border-2 border-gray-200',
+    success: 'bg-green-600 text-white hover:bg-green-700 active:bg-green-800 border-2 border-green-600',
+    danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 border-2 border-red-600',
+    dark: 'bg-gray-800 text-white hover:bg-gray-900 active:bg-black border-2 border-gray-800',
+    warning: 'bg-orange-600 text-white hover:bg-orange-700 active:bg-orange-800 border-2 border-orange-600',
+    outline: 'bg-white text-blue-700 border-2 border-blue-600 hover:bg-blue-50 active:bg-blue-100',
+    ghost: 'text-blue-600 hover:bg-blue-50 focus:ring-blue-500 shadow-none',
   };
   
   const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+    xs: 'px-3 py-1.5 text-xs',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-3 text-base',
+    lg: 'px-8 py-4 text-lg',
+    xl: 'px-10 py-5 text-xl',
   };
   
   const widthClass = fullWidth ? 'w-full' : '';

@@ -63,11 +63,29 @@ export const CartProvider = ({ children }) => {
             : cartItem
         )
       );
-      toast.success('Item quantity updated!');
+      toast.success(`${item.name} quantity updated!`, {
+        icon: '🛒',
+        duration: 2000,
+        position: 'top-right',
+        style: {
+          background: '#10B981',
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      });
     } else {
       // Add new item
       setCartItems([...cartItems, { ...item, quantity: 1 }]);
-      toast.success('Item added to cart!');
+      toast.success(`${item.name} added to cart!`, {
+        icon: '🛒',
+        duration: 2000,
+        position: 'top-right',
+        style: {
+          background: '#10B981',
+          color: '#fff',
+          fontWeight: 'bold',
+        },
+      });
     }
   };
 

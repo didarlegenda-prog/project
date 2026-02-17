@@ -123,6 +123,7 @@ const CartPage = () => {
               <Button
                 fullWidth
                 size="lg"
+                variant="success"
                 onClick={handleCheckout}
               >
                 Proceed to Checkout

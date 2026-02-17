@@ -30,17 +30,31 @@ class UserRegistrationView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
 
 
-# ← ДОБАВЬ ЭТО НОВЫЙ VIEW
-@api_view(['GET'])
+@api_view(['GET', 'PATCH', 'PUT'])
 @permission_classes([IsAuthenticated])
 def get_current_user(request):
     """
-    API endpoint to get current authenticated user.
+    Get or update current authenticated user.
     
-    get: Get current user's information.
+    GET: Retrieve current user information
+    PATCH: Partially update user information
+    PUT: Fully update user information
     """
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
+    if request.method == 'GET':
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+    
+    elif request.method in ['PATCH', 'PUT']:
+        partial = request.method == 'PATCH'
+        serializer = UserSerializer(
+            request.user, 
+            data=request.data, 
+            partial=partial
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserProfileView(generics.RetrieveAPIView):

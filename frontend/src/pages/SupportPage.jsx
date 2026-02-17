@@ -77,7 +77,7 @@ const SupportPage = () => {
             title="No support tickets"
             message="Have a question or issue? Create a support ticket and we'll help you out!"
             action={
-              <Button onClick={() => setShowNewTicketModal(true)}>
+              <Button variant="warning" size="lg" fullWidth onClick={() => setShowNewTicketModal(true)}>
                 Create Your First Ticket
               </Button>
             }

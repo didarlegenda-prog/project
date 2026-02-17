@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -15,18 +15,6 @@ const Footer = () => {
             <p className="text-gray-400 text-sm leading-relaxed">
               Your favorite food delivery service. Order from the best restaurants in your area.
             </p>
-
-            <div className="flex space-x-4 mt-4">
-              {[Facebook, Twitter, Instagram].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  <Icon className="h-5 w-5" />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Quick Links */}

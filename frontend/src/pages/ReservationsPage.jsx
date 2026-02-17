@@ -75,7 +75,7 @@ const ReservationsPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-dark-900">My Reservations</h1>
-          <Button onClick={() => setShowNewModal(true)}>
+          <Button variant="success" size="lg" onClick={() => setShowNewModal(true)}>
             Make a Reservation
           </Button>
         </div>
@@ -86,7 +86,7 @@ const ReservationsPage = () => {
             title="No reservations"
             message="You haven't made any reservations yet. Book a table now!"
             action={
-              <Button onClick={() => setShowNewModal(true)}>
+              <Button variant="success" size="lg" fullWidth onClick={() => setShowNewModal(true)}>
                 Make Your First Reservation
               </Button>
             }

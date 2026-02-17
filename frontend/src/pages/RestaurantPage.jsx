@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restaurantsAPI } from '../api/restaurants';
@@ -6,7 +5,6 @@ import { menuAPI } from '../api/menu';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
 import Loading from '../components/common/Loading';
-import MenuCategoryTabs from '../components/menu/MenuCategoryTabs';
 import MenuItemCard from '../components/menu/MenuItemCard';
 import Button from '../components/common/Button';
 import { Clock, DollarSign, MapPin, Phone, Calendar } from 'lucide-react';
@@ -18,26 +16,18 @@ const RestaurantPage = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { addToCart } = useCart();
-  const [activeCategory, setActiveCategory] = useState(null);
 
   const { data: restaurant, isLoading: loadingRestaurant } = useQuery({
     queryKey: ['restaurant', slug],
     queryFn: () => restaurantsAPI.getBySlug(slug),
   });
 
-  const { data: categoriesData } = useQuery({
-    queryKey: ['categories', restaurant?.id],
-    queryFn: () => menuAPI.getCategories(restaurant.id),
-    enabled: !!restaurant?.id,
-  });
-
   const { data: itemsData } = useQuery({
-    queryKey: ['menu-items', restaurant?.id, activeCategory],
-    queryFn: () => menuAPI.getItems(restaurant.id, activeCategory),
+    queryKey: ['menu-items', restaurant?.id],
+    queryFn: () => menuAPI.getItems(restaurant.id),
     enabled: !!restaurant?.id,
   });
 
-  const categories = categoriesData?.results || categoriesData || [];
   const menuItems = itemsData?.results || itemsData || [];
 
   const handleAddToCart = (item) => {
@@ -130,8 +120,9 @@ const RestaurantPage = () => {
               {/* Reserve Table Button */}
               <div className="mt-4">
                 <Button 
+                  variant="primary"
                   onClick={handleReservation}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto font-bold shadow-lg"
                   size="lg"
                 >
                   <Calendar className="mr-2 h-5 w-5" />
@@ -142,15 +133,6 @@ const RestaurantPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Menu Categories */}
-      {categories.length > 0 && (
-        <MenuCategoryTabs
-          categories={categories}
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-        />
-      )}
 
       {/* Menu Items */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

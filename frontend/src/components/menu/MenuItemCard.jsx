@@ -24,11 +24,11 @@ const MenuItemCard = ({ item, onAddToCart }) => {
             {item.is_available ? (
               <Button
                 size="sm"
+                variant="primary"
                 onClick={() => onAddToCart(item)}
-                className="flex items-center"
               >
                 <Plus className="h-4 w-4 mr-1" />
-                Add
+                Add to Cart
               </Button>
             ) : (
               <span className="text-sm text-error font-medium">
