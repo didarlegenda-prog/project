@@ -81,10 +81,10 @@ const AddressesPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-dark-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Addresses</h1>
+          <h1 className="text-3xl font-bold text-dark-900">My Addresses</h1>
           <Button onClick={handleAddNew}>
             <Plus className="h-4 w-4 mr-2" />
             Add Address
@@ -103,12 +103,12 @@ const AddressesPage = () => {
             {addresses.map((address) => (
               <div
                 key={address.id}
-                className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="bg-white border border-dark-200 rounded-lg p-4 hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
-                      <h3 className="font-semibold text-gray-900">
+                      <h3 className="font-semibold text-dark-900">
                         {address.label || 'Address'}
                       </h3>
                       {address.is_default && (
@@ -117,26 +117,26 @@ const AddressesPage = () => {
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-dark-600">
                       {address.street}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-dark-600">
                       {address.city}, {address.state} {address.zip_code}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+                <div className="flex items-center justify-between pt-3 border-t border-dark-200">
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleEdit(address)}
-                      className="p-2 text-gray-600 hover:text-primary transition-colors"
+                      className="p-2 text-dark-600 hover:text-primary transition-colors"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(address.id)}
-                      className="p-2 text-gray-600 hover:text-error transition-colors"
+                      className="p-2 text-dark-600 hover:text-error transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -220,9 +220,9 @@ const AddressesPage = () => {
               id="is_default"
               type="checkbox"
               {...register('is_default')}
-              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+              className="h-4 w-4 text-primary focus:ring-primary border-dark-300 rounded"
             />
-            <label htmlFor="is_default" className="ml-2 text-sm text-gray-900">
+            <label htmlFor="is_default" className="ml-2 text-sm text-dark-900">
               Set as default address
             </label>
           </div>

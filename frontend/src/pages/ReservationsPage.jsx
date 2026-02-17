@@ -71,10 +71,10 @@ const ReservationsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-dark-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Reservations</h1>
+          <h1 className="text-3xl font-bold text-dark-900">My Reservations</h1>
           <Button onClick={() => setShowNewModal(true)}>
             Make a Reservation
           </Button>
@@ -115,12 +115,12 @@ const ReservationsPage = () => {
       >
         <form onSubmit={handleSubmit(handleCreateReservation)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-dark-700 mb-1">
               Restaurant <span className="text-error">*</span>
             </label>
             <select
               {...register('restaurant', { required: 'Restaurant is required' })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="">Select a restaurant</option>
               {restaurants.map((restaurant) => (
@@ -168,13 +168,13 @@ const ReservationsPage = () => {
           />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-dark-700 mb-1">
               Special Requests
             </label>
             <textarea
               {...register('special_requests')}
               rows="3"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Any special requests or dietary restrictions..."
             />
           </div>

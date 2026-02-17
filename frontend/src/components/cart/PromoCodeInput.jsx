@@ -58,7 +58,7 @@ const PromoCodeInput = ({ onApply, currentPromo, onRemove, orderData }) => {
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="block text-sm font-medium text-dark-700">
         Have a promo code?
       </label>
       <div className="flex space-x-2">

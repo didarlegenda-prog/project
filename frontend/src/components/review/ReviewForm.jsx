@@ -52,7 +52,7 @@ const ReviewForm = ({ restaurantId, onSuccess, existingReview = null }) => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {/* Rating */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-dark-700 mb-2">
           Your Rating <span className="text-error">*</span>
         </label>
         <StarRating rating={rating} onRatingChange={setRating} size="lg" />
@@ -60,7 +60,7 @@ const ReviewForm = ({ restaurantId, onSuccess, existingReview = null }) => {
 
       {/* Comment */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-dark-700 mb-1">
           Your Review
         </label>
         <textarea
@@ -72,7 +72,7 @@ const ReviewForm = ({ restaurantId, onSuccess, existingReview = null }) => {
             },
           })}
           rows="4"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
           placeholder="Share your experience with this restaurant..."
         />
         {errors.comment && (

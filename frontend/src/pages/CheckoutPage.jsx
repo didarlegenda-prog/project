@@ -133,9 +133,9 @@ const CheckoutPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-dark-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold text-dark-900 mb-8">Checkout</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -143,7 +143,7 @@ const CheckoutPage = () => {
             <div className="lg:col-span-2 space-y-6">
               {/* Order Type */}
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">Order Type</h2>
+                <h2 className="text-xl font-semibold text-dark-900 mb-4">Order Type</h2>
                 <div className="space-y-3">
                   {Object.values(ORDER_TYPES).map((type) => (
                     <label
@@ -151,7 +151,7 @@ const CheckoutPage = () => {
                       className={`flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
                         orderType === type
                           ? 'border-primary bg-primary-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-dark-200 hover:border-dark-300'
                       }`}
                     >
                       <input
@@ -162,7 +162,7 @@ const CheckoutPage = () => {
                         onChange={() => setOrderType(type)}
                         className="mr-3"
                       />
-                      <span className="font-medium text-gray-900">{type}</span>
+                      <span className="font-medium text-dark-900">{type}</span>
                     </label>
                   ))}
                 </div>
@@ -171,13 +171,13 @@ const CheckoutPage = () => {
               {/* Delivery Address */}
               {orderType === ORDER_TYPES.DELIVERY && (
                 <div className="bg-white rounded-lg shadow-sm p-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                  <h2 className="text-xl font-semibold text-dark-900 mb-4">
                     Delivery Address
                   </h2>
                   
                   {addresses.length === 0 ? (
                     <div className="text-center py-4">
-                      <p className="text-gray-600 mb-4">No addresses saved</p>
+                      <p className="text-dark-600 mb-4">No addresses saved</p>
                       <Button
                         type="button"
                         variant="outline"
@@ -194,7 +194,7 @@ const CheckoutPage = () => {
                           className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all ${
                             selectedAddress === address.id
                               ? 'border-primary bg-primary-50'
-                              : 'border-gray-200 hover:border-gray-300'
+                              : 'border-dark-200 hover:border-dark-300'
                           }`}
                         >
                           <input
@@ -206,10 +206,10 @@ const CheckoutPage = () => {
                             className="mt-1 mr-3"
                           />
                           <div>
-                            <p className="font-medium text-gray-900">
+                            <p className="font-medium text-dark-900">
                               {address.label || 'Address'}
                             </p>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-dark-600">
                               {address.street}, {address.city}, {address.state} {address.zip_code}
                             </p>
                           </div>
@@ -222,7 +222,7 @@ const CheckoutPage = () => {
 
               {/* Payment Method */}
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
+                <h2 className="text-xl font-semibold text-dark-900 mb-4">
                   Payment Method
                 </h2>
                 <PaymentMethodSelector

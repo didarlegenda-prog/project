@@ -60,7 +60,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-dark-50">
       {/* Hero Section */}
       <div className="bg-primary text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,9 +77,9 @@ const HomePage = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for restaurants..."
-                className="w-full pl-12 pr-4 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-600"
+                className="w-full pl-12 pr-4 py-4 rounded-lg text-dark-900 focus:outline-none focus:ring-2 focus:ring-primary-600"
               />
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-gray-400" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-6 w-6 text-dark-400" />
             </div>
           </form>
         </div>
@@ -92,7 +92,7 @@ const HomePage = () => {
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center text-gray-700 font-medium hover:text-gray-900"
+              className="flex items-center text-dark-700 font-medium hover:text-dark-900"
             >
               <SlidersHorizontal className="h-5 w-5 mr-2" />
               Filters
@@ -111,13 +111,13 @@ const HomePage = () => {
           {showFilters && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-dark-700 mb-2">
                   Cuisine Type
                 </label>
                 <select
                   value={filters.cuisine_type}
                   onChange={(e) => handleFilterChange('cuisine_type', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="">All Cuisines</option>
                   <option value="Italian">Italian</option>
@@ -131,13 +131,13 @@ const HomePage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-dark-700 mb-2">
                   Minimum Rating
                 </label>
                 <select
                   value={filters.min_rating}
                   onChange={(e) => handleFilterChange('min_rating', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="">Any Rating</option>
                   <option value="4.5">4.5+ Stars</option>
@@ -148,13 +148,13 @@ const HomePage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-dark-700 mb-2">
                   Sort By
                 </label>
                 <select
                   value={filters.ordering}
                   onChange={(e) => handleFilterChange('ordering', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="-average_rating">Highest Rated</option>
                   <option value="estimated_delivery_time">Fastest Delivery</option>
@@ -182,7 +182,7 @@ const HomePage = () => {
         ) : (
           <>
             <div className="mb-4">
-              <p className="text-gray-600">
+              <p className="text-dark-600">
                 {restaurants.length} restaurant{restaurants.length !== 1 ? 's' : ''} found
               </p>
             </div>

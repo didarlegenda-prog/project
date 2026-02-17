@@ -61,10 +61,10 @@ const SupportPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-dark-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Support Tickets</h1>
+          <h1 className="text-3xl font-bold text-dark-900">Support Tickets</h1>
           <Button onClick={() => setShowNewTicketModal(true)}>
             <Plus className="h-4 w-4 mr-2" />
             New Ticket
@@ -106,12 +106,12 @@ const SupportPage = () => {
       >
         <form onSubmit={handleSubmit(handleCreateTicket)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-dark-700 mb-1">
               Category <span className="text-error">*</span>
             </label>
             <select
               {...register('category', { required: 'Category is required' })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="">Select a category</option>
               {Object.values(TICKET_CATEGORIES).map((category) => (
@@ -134,7 +134,7 @@ const SupportPage = () => {
           />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-dark-700 mb-1">
               Description <span className="text-error">*</span>
             </label>
             <textarea
@@ -146,7 +146,7 @@ const SupportPage = () => {
                 },
               })}
               rows="5"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Please provide details about your issue..."
             />
             {errors.description && (
@@ -183,11 +183,11 @@ const SupportPage = () => {
         {selectedTicket && (
           <div className="space-y-6">
             <div>
-              <h3 className="font-semibold text-gray-900 text-lg mb-2">
+              <h3 className="font-semibold text-dark-900 text-lg mb-2">
                 {selectedTicket.subject}
               </h3>
-              <p className="text-gray-600 mb-4">{selectedTicket.description}</p>
-              <div className="flex items-center space-x-4 text-sm text-gray-500">
+              <p className="text-dark-600 mb-4">{selectedTicket.description}</p>
+              <div className="flex items-center space-x-4 text-sm text-dark-500">
                 <span>Category: {selectedTicket.category}</span>
                 <span>Status: {selectedTicket.status}</span>
                 <span>{formatDateTime(selectedTicket.created_at)}</span>
@@ -196,20 +196,20 @@ const SupportPage = () => {
 
             {/* Comments */}
             {selectedTicket.comments && selectedTicket.comments.length > 0 && (
-              <div className="border-t border-gray-200 pt-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Comments</h4>
+              <div className="border-t border-dark-200 pt-6">
+                <h4 className="font-semibold text-dark-900 mb-4">Comments</h4>
                 <div className="space-y-4">
                   {selectedTicket.comments.map((comment) => (
-                    <div key={comment.id} className="bg-gray-50 rounded-lg p-4">
+                    <div key={comment.id} className="bg-dark-50 rounded-lg p-4">
                       <div className="flex items-start justify-between mb-2">
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-dark-900">
                           {comment.user?.first_name || comment.user?.username || 'User'}
                         </span>
-                        <span className="text-xs text-gray-500">
+                        <span className="text-xs text-dark-500">
                           {formatDateTime(comment.created_at)}
                         </span>
                       </div>
-                      <p className="text-gray-700">{comment.message}</p>
+                      <p className="text-dark-700">{comment.message}</p>
                     </div>
                   ))}
                 </div>
@@ -218,7 +218,7 @@ const SupportPage = () => {
 
             {/* Add Comment */}
             {selectedTicket.status !== 'CLOSED' && (
-              <div className="border-t border-gray-200 pt-6">
+              <div className="border-t border-dark-200 pt-6">
                 <TicketCommentForm
                   ticketId={selectedTicket.id}
                   onSuccess={handleCommentSuccess}

@@ -4,14 +4,14 @@ import Button from '../common/Button';
 
 const MenuItemCard = ({ item, onAddToCart }) => {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+    <div className="bg-white border border-dark-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
       <div className="flex">
         {/* Item Details */}
         <div className="flex-1 p-4">
-          <h3 className="font-semibold text-gray-900 mb-1">{item.name}</h3>
+          <h3 className="font-semibold text-dark-900 mb-1">{item.name}</h3>
           
           {item.description && (
-            <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+            <p className="text-sm text-dark-600 mb-2 line-clamp-2">
               {item.description}
             </p>
           )}
@@ -41,17 +41,17 @@ const MenuItemCard = ({ item, onAddToCart }) => {
           {(item.is_vegetarian || item.is_vegan || item.is_spicy) && (
             <div className="flex flex-wrap gap-1 mt-2">
               {item.is_vegetarian && (
-                <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded">
+                <span className="text-xs px-2 py-1 bg-success-100 text-success-800 rounded">
                   🌱 Vegetarian
                 </span>
               )}
               {item.is_vegan && (
-                <span className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded">
+                <span className="text-xs px-2 py-1 bg-success-100 text-success-800 rounded">
                   🌿 Vegan
                 </span>
               )}
               {item.is_spicy && (
-                <span className="text-xs px-2 py-1 bg-red-100 text-red-800 rounded">
+                <span className="text-xs px-2 py-1 bg-error-100 text-error-800 rounded">
                   🌶️ Spicy
                 </span>
               )}
