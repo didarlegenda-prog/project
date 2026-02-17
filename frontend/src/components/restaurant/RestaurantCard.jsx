@@ -49,7 +49,7 @@ const RestaurantCard = ({ restaurant }) => {
         {/* Rating, Time, Price */}
         <div className="flex items-center space-x-4 text-sm text-dark-700">
           <div className="flex items-center">
-            <Star className="h-4 w-4 text-warning-500 fill-warning-500 mr-1" />
+            <Star className="h-4 w-4 text-warning-500 fill-current mr-1" />
             <span className="font-semibold">{formatRating(restaurant.average_rating || 0)}</span>
           </div>
           

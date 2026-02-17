@@ -26,7 +26,7 @@ const StarRating = ({ rating, onRatingChange, readonly = false, size = 'md' }) =
           <Star
             className={`${sizes[size]} ${
               value <= rating
-                ? 'text-warning-500 fill-warning-500'
+                ? 'text-warning-500 fill-current'
                 : 'text-dark-300'
             }`}
           />
