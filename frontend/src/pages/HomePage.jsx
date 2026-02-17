@@ -5,23 +5,16 @@ import { restaurantsAPI } from '../api/restaurants';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
 import Loading from '../components/common/Loading';
 import EmptyState from '../components/common/EmptyState';
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
-  const [filters, setFilters] = useState({
-    cuisine_type: searchParams.get('cuisine') || '',
-    min_rating: searchParams.get('min_rating') || '',
-    ordering: searchParams.get('ordering') || '-average_rating',
-  });
-  const [showFilters, setShowFilters] = useState(false);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['restaurants', searchQuery, filters],
+    queryKey: ['restaurants', searchQuery],
     queryFn: () => restaurantsAPI.getAll({
       search: searchQuery,
-      ...filters,
     }),
   });
 
@@ -29,34 +22,16 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams();
     if (searchQuery) {
       params.set('search', searchQuery);
-    } else {
-      params.delete('search');
     }
     setSearchParams(params);
   };
 
-  const handleFilterChange = (key, value) => {
-    setFilters({ ...filters, [key]: value });
-    const params = new URLSearchParams(searchParams);
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    setSearchParams(params);
-  };
-
-  const clearFilters = () => {
-    setFilters({
-      cuisine_type: '',
-      min_rating: '',
-      ordering: '-average_rating',
-    });
-    setSearchParams({});
+  const clearSearch = () => {
     setSearchQuery('');
+    setSearchParams({});
   };
 
   return (
@@ -87,84 +62,22 @@ const HomePage = () => {
 
       {/* Filters and Results */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Filter Bar */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center text-dark-700 font-medium hover:text-dark-900"
-            >
-              <SlidersHorizontal className="h-5 w-5 mr-2" />
-              Filters
-            </button>
-            
-            {(filters.cuisine_type || filters.min_rating || searchQuery) && (
+        {/* Clear Search */}
+        {searchQuery && (
+          <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div className="flex items-center justify-between">
+              <p className="text-dark-700">
+                Showing results for: <span className="font-semibold">"{searchQuery}"</span>
+              </p>
               <button
-                onClick={clearFilters}
+                onClick={clearSearch}
                 className="text-sm text-primary hover:text-primary-600"
               >
-                Clear all
+                Clear search
               </button>
-            )}
-          </div>
-
-          {showFilters && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t">
-              <div>
-                <label className="block text-sm font-medium text-dark-700 mb-2">
-                  Cuisine Type
-                </label>
-                <select
-                  value={filters.cuisine_type}
-                  onChange={(e) => handleFilterChange('cuisine_type', e.target.value)}
-                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="">All Cuisines</option>
-                  <option value="Italian">Italian</option>
-                  <option value="Chinese">Chinese</option>
-                  <option value="Indian">Indian</option>
-                  <option value="Mexican">Mexican</option>
-                  <option value="Japanese">Japanese</option>
-                  <option value="American">American</option>
-                  <option value="Thai">Thai</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-dark-700 mb-2">
-                  Minimum Rating
-                </label>
-                <select
-                  value={filters.min_rating}
-                  onChange={(e) => handleFilterChange('min_rating', e.target.value)}
-                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="">Any Rating</option>
-                  <option value="4.5">4.5+ Stars</option>
-                  <option value="4.0">4.0+ Stars</option>
-                  <option value="3.5">3.5+ Stars</option>
-                  <option value="3.0">3.0+ Stars</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-dark-700 mb-2">
-                  Sort By
-                </label>
-                <select
-                  value={filters.ordering}
-                  onChange={(e) => handleFilterChange('ordering', e.target.value)}
-                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  <option value="-average_rating">Highest Rated</option>
-                  <option value="estimated_delivery_time">Fastest Delivery</option>
-                  <option value="delivery_fee">Lowest Delivery Fee</option>
-                  <option value="-created_at">Newest</option>
-                </select>
-              </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Results */}
         {isLoading ? (

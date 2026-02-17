@@ -1,27 +1,24 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { restaurantsAPI } from '../api/restaurants';
 import { menuAPI } from '../api/menu';
-import { reviewsAPI } from '../api/reviews';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
 import Loading from '../components/common/Loading';
 import MenuCategoryTabs from '../components/menu/MenuCategoryTabs';
 import MenuItemCard from '../components/menu/MenuItemCard';
-import ReviewCard from '../components/review/ReviewCard';
-import ReviewForm from '../components/review/ReviewForm';
 import Button from '../components/common/Button';
-import Modal from '../components/common/Modal';
-import { Star, Clock, DollarSign, MapPin, Phone } from 'lucide-react';
-import { formatCurrency, formatRating } from '../utils/formatters';
+import { Clock, DollarSign, MapPin, Phone, Calendar } from 'lucide-react';
+import { formatCurrency } from '../utils/formatters';
+import toast from 'react-hot-toast';
 
 const RestaurantPage = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState(null);
-  const [showReviewModal, setShowReviewModal] = useState(false);
 
   const { data: restaurant, isLoading: loadingRestaurant } = useQuery({
     queryKey: ['restaurant', slug],
@@ -40,15 +37,8 @@ const RestaurantPage = () => {
     enabled: !!restaurant?.id,
   });
 
-  const { data: reviewsData, refetch: refetchReviews } = useQuery({
-    queryKey: ['reviews', restaurant?.id],
-    queryFn: () => reviewsAPI.getByRestaurant(restaurant.id, { page_size: 10 }),
-    enabled: !!restaurant?.id,
-  });
-
   const categories = categoriesData?.results || categoriesData || [];
   const menuItems = itemsData?.results || itemsData || [];
-  const reviews = reviewsData?.results || reviewsData || [];
 
   const handleAddToCart = (item) => {
     addToCart(item, {
@@ -57,6 +47,15 @@ const RestaurantPage = () => {
       slug: restaurant.slug,
       delivery_fee: restaurant.delivery_fee,
     });
+  };
+
+  const handleReservation = () => {
+    if (!isAuthenticated) {
+      toast.error('Please login to make a reservation');
+      navigate('/login');
+      return;
+    }
+    navigate('/reservations');
   };
 
   if (loadingRestaurant) {
@@ -95,12 +94,6 @@ const RestaurantPage = () => {
               <p className="text-dark-600 mb-4">{restaurant.description}</p>
               
               <div className="flex flex-wrap gap-4 text-sm">
-                <div className="flex items-center text-dark-600">
-                  <Star className="h-4 w-4 text-warning-500 fill-warning-500 mr-1" />
-                  <span className="font-medium">{formatRating(restaurant.average_rating || 0)}</span>
-                  <span className="ml-1">({restaurant.total_reviews || 0} reviews)</span>
-                </div>
-                
                 {restaurant.cuisine_type && (
                   <span className="px-3 py-1 bg-dark-100 text-dark-700 rounded-full">
                     {restaurant.cuisine_type}
@@ -133,6 +126,18 @@ const RestaurantPage = () => {
                   <span>{restaurant.phone}</span>
                 </div>
               )}
+
+              {/* Reserve Table Button */}
+              <div className="mt-4">
+                <Button 
+                  onClick={handleReservation}
+                  className="w-full sm:w-auto"
+                  size="lg"
+                >
+                  <Calendar className="mr-2 h-5 w-5" />
+                  Reserve Table
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -164,44 +169,7 @@ const RestaurantPage = () => {
             ))}
           </div>
         )}
-
-        {/* Reviews Section */}
-        <div className="mt-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-dark-900">Reviews</h2>
-            {isAuthenticated && (
-              <Button onClick={() => setShowReviewModal(true)}>
-                Write a Review
-              </Button>
-            )}
-          </div>
-
-          {reviews.length === 0 ? (
-            <p className="text-dark-600 text-center py-8">No reviews yet. Be the first to review!</p>
-          ) : (
-            <div className="space-y-4">
-              {reviews.map((review) => (
-                <ReviewCard key={review.id} review={review} />
-              ))}
-            </div>
-          )}
-        </div>
       </div>
-
-      {/* Review Modal */}
-      <Modal
-        isOpen={showReviewModal}
-        onClose={() => setShowReviewModal(false)}
-        title="Write a Review"
-      >
-        <ReviewForm
-          restaurantId={restaurant.id}
-          onSuccess={() => {
-            setShowReviewModal(false);
-            refetchReviews();
-          }}
-        />
-      </Modal>
     </div>
   );
 };

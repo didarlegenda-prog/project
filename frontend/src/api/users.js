@@ -3,13 +3,13 @@ import apiClient from './client';
 export const usersAPI = {
   // Get user profile
   getProfile: async () => {
-    const response = await apiClient.get('/users/me/');
+    const response = await apiClient.get('/auth/me/');
     return response.data;
   },
 
   // Update user profile
   updateProfile: async (profileData) => {
-    const response = await apiClient.patch('/users/me/', profileData);
+    const response = await apiClient.patch('/auth/me/', profileData);
     return response.data;
   },
 
@@ -17,7 +17,7 @@ export const usersAPI = {
   uploadImage: async (imageFile) => {
     const formData = new FormData();
     formData.append('image', imageFile);
-    const response = await apiClient.post('/users/me/upload-image/', formData, {
+    const response = await apiClient.post('/auth/me/upload-image/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -27,13 +27,13 @@ export const usersAPI = {
 
   // Update preferences
   updatePreferences: async (preferences) => {
-    const response = await apiClient.patch('/users/me/preferences/', preferences);
+    const response = await apiClient.patch('/auth/me/preferences/', preferences);
     return response.data;
   },
 
   // Get user addresses
   getAddresses: async () => {
-    const response = await apiClient.get('/users/me/addresses/');
+    const response = await apiClient.get('/auth/addresses/');
     return response.data;
   },
 };
