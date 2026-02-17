@@ -2,8 +2,9 @@
 Views for restaurants app.
 """
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from restaurants.models import Restaurant, Review
+from restaurants.serializers.restaurant_serializers import RestaurantSerializer, ReviewSerializer
 from core.permissions import IsRestaurantOwnerOrReadOnly
 
 
@@ -18,6 +19,7 @@ class RestaurantViewSet(viewsets.ModelViewSet):
     destroy: Delete restaurant (owner only).
     """
     queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsRestaurantOwnerOrReadOnly]
     
     def get_queryset(self):
@@ -33,8 +35,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
     API endpoint for restaurant reviews.
     """
     queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     
     def get_queryset(self):
         return Review.objects.filter(restaurant_id=self.kwargs['restaurant_pk'])
+
 
