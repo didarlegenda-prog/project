@@ -23,7 +23,7 @@ const RestaurantCard = ({ restaurant }) => {
         )}
         
         {/* Status Badge */}
-        {!restaurant.is_open && (
+        {!restaurant.is_open_now && (
           <div className="absolute top-2 right-2 px-3 py-1 bg-error text-white text-sm font-medium rounded-full">
             Closed
           </div>
