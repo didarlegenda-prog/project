@@ -44,7 +44,7 @@ const OrderStatusTracker = ({ currentStatus }) => {
                 className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
                   index <= currentStepIndex
                     ? 'bg-primary border-primary text-white'
-                    : 'bg-white border-gray-300 text-gray-400'
+                    : 'bg-white border-dark-300 text-dark-400'
                 }`}
               >
                 {index < currentStepIndex ? (
@@ -57,7 +57,7 @@ const OrderStatusTracker = ({ currentStatus }) => {
               {/* Label */}
               <p
                 className={`mt-2 text-xs font-medium text-center ${
-                  index <= currentStepIndex ? 'text-primary' : 'text-gray-400'
+                  index <= currentStepIndex ? 'text-primary' : 'text-dark-400'
                 }`}
               >
                 {step.label}
@@ -68,7 +68,7 @@ const OrderStatusTracker = ({ currentStatus }) => {
             {index < filteredSteps.length - 1 && (
               <div
                 className={`flex-1 h-0.5 mx-2 ${
-                  index < currentStepIndex ? 'bg-primary' : 'bg-gray-300'
+                  index < currentStepIndex ? 'bg-primary' : 'bg-dark-300'
                 }`}
               />
             )}

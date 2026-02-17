@@ -65,13 +65,13 @@ const NotificationSettings = () => {
         {settingsList.map((setting) => (
           <div key={setting.key} className="flex items-center justify-between py-3">
             <div>
-              <p className="font-medium text-gray-900">{setting.label}</p>
-              <p className="text-sm text-gray-500">{setting.group} Notifications</p>
+              <p className="font-medium text-dark-900">{setting.label}</p>
+              <p className="text-sm text-dark-500">{setting.group} Notifications</p>
             </div>
             <button
               onClick={() => handleToggle(setting.key)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                settings[setting.key] ? 'bg-primary' : 'bg-gray-200'
+                settings[setting.key] ? 'bg-primary' : 'bg-dark-200'
               }`}
             >
               <span

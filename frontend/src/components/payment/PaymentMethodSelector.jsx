@@ -25,7 +25,7 @@ const PaymentMethodSelector = ({ selected, onChange }) => {
           className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-all ${
             selected === method.id
               ? 'border-primary bg-primary-50'
-              : 'border-gray-200 hover:border-gray-300'
+              : 'border-dark-200 hover:border-dark-300'
           }`}
         >
           <input
@@ -38,10 +38,10 @@ const PaymentMethodSelector = ({ selected, onChange }) => {
           />
           <div className="flex-1">
             <div className="flex items-center">
-              <method.icon className="h-5 w-5 mr-2 text-gray-700" />
-              <span className="font-medium text-gray-900">{method.name}</span>
+              <method.icon className="h-5 w-5 mr-2 text-dark-700" />
+              <span className="font-medium text-dark-900">{method.name}</span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">{method.description}</p>
+            <p className="text-sm text-dark-600 mt-1">{method.description}</p>
           </div>
         </label>
       ))}

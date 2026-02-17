@@ -26,7 +26,7 @@ const TicketCommentForm = ({ ticketId, onSuccess }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-dark-700 mb-1">
           Add a Comment
         </label>
         <textarea
@@ -38,7 +38,7 @@ const TicketCommentForm = ({ ticketId, onSuccess }) => {
             },
           })}
           rows="4"
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
           placeholder="Write your comment..."
         />
         {errors.comment && (

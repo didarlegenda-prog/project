@@ -56,13 +56,13 @@ const StripeCheckoutForm = ({ amount, onSuccess, onError }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="p-4 border border-gray-300 rounded-lg">
+      <div className="p-4 border border-dark-300 rounded-lg">
         <CardElement options={cardElementOptions} />
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-600">
+      <div className="flex items-center justify-between text-sm text-dark-600">
         <span>Total Amount:</span>
-        <span className="text-lg font-semibold text-gray-900">
+        <span className="text-lg font-semibold text-dark-900">
           ${amount?.toFixed(2)}
         </span>
       </div>
@@ -76,7 +76,7 @@ const StripeCheckoutForm = ({ amount, onSuccess, onError }) => {
         Pay ${amount?.toFixed(2)}
       </Button>
 
-      <p className="text-xs text-gray-500 text-center">
+      <p className="text-xs text-dark-500 text-center">
         Your payment information is secure and encrypted
       </p>
     </form>

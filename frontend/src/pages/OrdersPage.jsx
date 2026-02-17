@@ -47,9 +47,9 @@ const OrdersPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-dark-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">My Orders</h1>
+        <h1 className="text-3xl font-bold text-dark-900 mb-8">My Orders</h1>
 
         {orders.length === 0 ? (
           <EmptyState
@@ -83,19 +83,19 @@ const OrdersPage = () => {
             <OrderStatusTracker currentStatus={selectedOrder.status} />
 
             {/* Order Details */}
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h3 className="font-semibold text-gray-900 mb-3">Order Details</h3>
+            <div className="bg-dark-50 rounded-lg p-4">
+              <h3 className="font-semibold text-dark-900 mb-3">Order Details</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Order Date:</span>
+                  <span className="text-dark-600">Order Date:</span>
                   <span className="font-medium">{formatDateTime(selectedOrder.created_at)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Order Type:</span>
+                  <span className="text-dark-600">Order Type:</span>
                   <span className="font-medium">{selectedOrder.order_type}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Payment Method:</span>
+                  <span className="text-dark-600">Payment Method:</span>
                   <span className="font-medium">{selectedOrder.payment_method}</span>
                 </div>
               </div>
@@ -103,11 +103,11 @@ const OrdersPage = () => {
 
             {/* Items */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-3">Items</h3>
+              <h3 className="font-semibold text-dark-900 mb-3">Items</h3>
               <div className="space-y-2">
                 {selectedOrder.items?.map((item, index) => (
                   <div key={index} className="flex justify-between text-sm">
-                    <span className="text-gray-700">
+                    <span className="text-dark-700">
                       {item.quantity}x {item.menu_item?.name || item.name}
                     </span>
                     <span className="font-medium">
@@ -119,7 +119,7 @@ const OrdersPage = () => {
             </div>
 
             {/* Total */}
-            <div className="border-t border-gray-200 pt-4">
+            <div className="border-t border-dark-200 pt-4">
               <div className="flex justify-between text-lg font-semibold">
                 <span>Total</span>
                 <span>{formatCurrency(selectedOrder.total_amount || selectedOrder.total)}</span>

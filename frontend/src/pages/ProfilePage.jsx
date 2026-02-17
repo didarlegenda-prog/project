@@ -58,19 +58,19 @@ const ProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-dark-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">My Profile</h1>
+        <h1 className="text-3xl font-bold text-dark-900 mb-8">My Profile</h1>
 
         <div className="bg-white rounded-lg shadow-sm p-6">
           {/* Profile Image */}
           <div className="flex items-center space-x-6 mb-8">
             <div className="relative">
-              <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+              <div className="w-24 h-24 rounded-full bg-dark-200 flex items-center justify-center overflow-hidden">
                 {profile?.image ? (
                   <img src={profile.image} alt={profile.first_name} className="w-full h-full object-cover" />
                 ) : (
-                  <User className="h-12 w-12 text-gray-400" />
+                  <User className="h-12 w-12 text-dark-400" />
                 )}
               </div>
               <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer hover:bg-primary-600">
@@ -85,10 +85,10 @@ const ProfilePage = () => {
             </div>
             
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-dark-900">
                 {profile?.first_name} {profile?.last_name}
               </h2>
-              <p className="text-gray-600">{profile?.email}</p>
+              <p className="text-dark-600">{profile?.email}</p>
             </div>
           </div>
 
@@ -137,8 +137,8 @@ const ProfilePage = () => {
             </div>
 
             {/* Preferences */}
-            <div className="border-t border-gray-200 pt-6 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Preferences</h3>
+            <div className="border-t border-dark-200 pt-6 mb-6">
+              <h3 className="text-lg font-semibold text-dark-900 mb-4">Preferences</h3>
               
               <div className="space-y-4">
                 <Input

@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen, onClose }) => {
           <span className="text-xl font-bold text-primary">FoodApp</span>
           <button
             onClick={onClose}
-            className="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+            className="p-2 rounded-md text-dark-600 hover:text-dark-900 hover:bg-dark-100"
           >
             <X className="h-6 w-6" />
           </button>
@@ -48,9 +48,9 @@ const Sidebar = ({ isOpen, onClose }) => {
 
         <div className="p-4">
           {isAuthenticated && user && (
-            <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-600">Welcome back,</p>
-              <p className="font-semibold text-gray-900">
+            <div className="mb-6 p-4 bg-dark-50 rounded-lg">
+              <p className="text-sm text-dark-600">Welcome back,</p>
+              <p className="font-semibold text-dark-900">
                 {user.first_name || user.username}
               </p>
             </div>
@@ -62,7 +62,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 key={item.path}
                 to={item.path}
                 onClick={onClose}
-                className="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg"
+                className="flex items-center px-4 py-3 text-dark-700 hover:bg-dark-100 rounded-lg"
               >
                 <item.icon className="h-5 w-5 mr-3" />
                 <span>{item.label}</span>

@@ -30,13 +30,13 @@ const NotificationsPage = () => {
   const unreadNotifications = notifications.filter(n => !n.is_read);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-dark-50 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Notifications</h1>
+            <h1 className="text-3xl font-bold text-dark-900">Notifications</h1>
             {unreadNotifications.length > 0 && (
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-sm text-dark-600 mt-1">
                 {unreadNotifications.length} unread notification{unreadNotifications.length !== 1 ? 's' : ''}
               </p>
             )}
@@ -69,7 +69,7 @@ const NotificationsPage = () => {
               message="You're all caught up! Check back later for updates."
             />
           ) : (
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-dark-200">
               {notifications.map((notification) => (
                 <NotificationItem
                   key={notification.id}
