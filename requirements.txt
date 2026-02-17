@@ -1,5 +1,5 @@
-# Core Django (updated to patched version for security vulnerabilities)
-Django==4.2.26
+# Core Django (updated to latest patched version 4.2.28 for security vulnerabilities)
+Django==4.2.28
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.0
 
