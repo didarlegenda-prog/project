@@ -236,7 +236,7 @@ Core dependencies:
 - celery 5.3.4
 - redis 5.0.1
 - stripe 7.7.0
-- Pillow 10.3.0 (patched version)
+- Pillow 12.1.1 (latest secure version)
 
 See `requirements.txt` for complete list.
 

@@ -47,13 +47,21 @@ Critical security vulnerabilities were identified in project dependencies and ha
    - Fixed in: 4.2.28
    - Description: Latest SQL injection vulnerabilities patched
 
-### Pillow 10.1.0 → 10.3.0
+### Pillow 10.1.0 → 12.1.1 (LATEST SECURE VERSION)
 
-**Buffer Overflow Vulnerability:**
-- Severity: HIGH
-- Affected: Pillow < 10.3.0
-- Fixed in: 10.3.0
-- Description: Buffer overflow vulnerability in image processing
+**All Pillow Vulnerabilities Patched:**
+
+1. **Buffer Overflow Vulnerability**
+   - Severity: HIGH
+   - Affected: Pillow < 10.3.0
+   - Fixed in: 12.1.1
+   - Description: Buffer overflow vulnerability in image processing
+
+2. **Out-of-Bounds Write in PSD Image Loading**
+   - Severity: HIGH
+   - Affected: Pillow >= 10.3.0, < 12.1.1
+   - Fixed in: 12.1.1
+   - Description: Out-of-bounds write when loading PSD images
 
 ## Changes Made
 
@@ -64,7 +72,7 @@ Critical security vulnerabilities were identified in project dependencies and ha
 + Django==4.2.28 (LATEST SECURE VERSION)
 
 - Pillow==10.1.0
-+ Pillow==10.3.0
++ Pillow==12.1.1 (LATEST SECURE VERSION)
 
 - django-filter==23.5
 + django-filter==24.3
