@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Star, Clock, DollarSign } from 'lucide-react';
-import { formatCurrency, formatRating } from '../../utils/formatters';
+import { Clock, DollarSign } from 'lucide-react';
+import { formatCurrency } from '../../utils/formatters';
 
 const RestaurantCard = ({ restaurant }) => {
   return (
@@ -46,13 +46,8 @@ const RestaurantCard = ({ restaurant }) => {
           {restaurant.cuisine_type || 'Various cuisines'}
         </p>
 
-        {/* Rating, Time, Price */}
+        {/* Time, Price */}
         <div className="flex items-center space-x-4 text-sm text-dark-700">
-          <div className="flex items-center">
-            <Star className="h-4 w-4 text-warning-500 fill-current mr-1" />
-            <span className="font-semibold">{formatRating(restaurant.average_rating || 0)}</span>
-          </div>
-          
           {restaurant.estimated_delivery_time && (
             <div className="flex items-center">
               <Clock className="h-4 w-4 mr-1 text-dark-600" />

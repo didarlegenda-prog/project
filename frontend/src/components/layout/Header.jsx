@@ -169,12 +169,20 @@ const Header = ({ onMenuClick }) => {
                 )}
               </div>
             ) : (
-              <Link
-                to="/login"
-                className="px-4 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-700"
-              >
-                Sign In
-              </Link>
+              <div className="flex items-center space-x-2">
+                <Link
+                  to="/login"
+                  className="px-4 py-2 text-sm font-semibold text-white bg-dark-800 border-2 border-dark-800 rounded-lg hover:bg-dark-900 hover:border-dark-900 transition-all"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="px-4 py-2 text-sm font-semibold text-white bg-primary-600 border-2 border-primary-600 rounded-lg hover:bg-primary-700 hover:border-primary-700 transition-all shadow-md"
+                >
+                  Create Account
+                </Link>
+              </div>
             )}
           </div>
         </div>

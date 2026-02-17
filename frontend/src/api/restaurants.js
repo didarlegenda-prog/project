@@ -20,18 +20,6 @@ export const restaurantsAPI = {
     });
     return response.data;
   },
-
-  // Get restaurant reviews
-  getReviews: async (restaurantId, params = {}) => {
-    const response = await apiClient.get(`/restaurants/${restaurantId}/reviews/`, { params });
-    return response.data;
-  },
-
-  // Get restaurant ratings
-  getRatings: async (restaurantId) => {
-    const response = await apiClient.get(`/restaurants/${restaurantId}/ratings/`);
-    return response.data;
-  },
 };
 
 export default restaurantsAPI;
