@@ -143,7 +143,7 @@ export const CartProvider = ({ children }) => {
 
   // Calculate totals
   const subtotal = cartItems.reduce((sum, item) => {
-    // Prices from API are in CENTS (8400 = $84.00)
+    // Prices from API are in cents (8400 = $84.00)
     // Divide by 100 to convert to dollars
     const priceInDollars = item.price / 100;
     return sum + (priceInDollars * item.quantity);

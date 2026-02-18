@@ -39,7 +39,6 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
         {/* Backdrop */}
         <div
           className="fixed inset-0 transition-opacity bg-dark-500 bg-opacity-75"
-          aria-hidden="true"
         />
 
         {/* Modal */}
