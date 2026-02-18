@@ -113,7 +113,7 @@ const ReservationsPage = () => {
         }}
         title="Make a Reservation"
       >
-        <form onSubmit={handleSubmit(handleCreateReservation)} className="space-y-4">
+        <form onSubmit={handleSubmit(handleCreateReservation)} className="space-y-4" onClick={(e) => e.stopPropagation()}>
           <div>
             <label className="block text-sm font-medium text-dark-700 mb-1">
               Restaurant <span className="text-error">*</span>
@@ -121,6 +121,7 @@ const ReservationsPage = () => {
             <select
               {...register('restaurant', { required: 'Restaurant is required' })}
               className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              onClick={(e) => e.stopPropagation()}
             >
               <option value="">Select a restaurant</option>
               {restaurants.map((restaurant) => (
@@ -141,6 +142,7 @@ const ReservationsPage = () => {
               {...register('date', { required: 'Date is required' })}
               error={errors.date?.message}
               min={new Date().toISOString().split('T')[0]}
+              onClick={(e) => e.stopPropagation()}
               required
             />
 
@@ -149,6 +151,7 @@ const ReservationsPage = () => {
               type="time"
               {...register('time', { required: 'Time is required' })}
               error={errors.time?.message}
+              onClick={(e) => e.stopPropagation()}
               required
             />
           </div>
@@ -164,6 +167,7 @@ const ReservationsPage = () => {
             error={errors.party_size?.message}
             min="1"
             max="20"
+            onClick={(e) => e.stopPropagation()}
             required
           />
 
@@ -176,6 +180,7 @@ const ReservationsPage = () => {
               rows="3"
               className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               placeholder="Any special requests or dietary restrictions..."
+              onClick={(e) => e.stopPropagation()}
             />
           </div>
 

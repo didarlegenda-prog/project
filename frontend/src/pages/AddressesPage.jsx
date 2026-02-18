@@ -166,12 +166,13 @@ const AddressesPage = () => {
         }}
         title={editingAddress ? 'Edit Address' : 'Add New Address'}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" onClick={(e) => e.stopPropagation()}>
           <Input
             label="Label"
             {...register('label', { required: 'Label is required' })}
             placeholder="e.g., Home, Office"
             error={errors.label?.message}
+            onClick={(e) => e.stopPropagation()}
             required
           />
 
@@ -179,6 +180,7 @@ const AddressesPage = () => {
             label="Street Address"
             {...register('street', { required: 'Street address is required' })}
             error={errors.street?.message}
+            onClick={(e) => e.stopPropagation()}
             required
           />
 
@@ -187,6 +189,7 @@ const AddressesPage = () => {
               label="City"
               {...register('city', { required: 'City is required' })}
               error={errors.city?.message}
+              onClick={(e) => e.stopPropagation()}
               required
             />
 
@@ -194,6 +197,7 @@ const AddressesPage = () => {
               label="State"
               {...register('state', { required: 'State is required' })}
               error={errors.state?.message}
+              onClick={(e) => e.stopPropagation()}
               required
             />
           </div>
@@ -203,6 +207,7 @@ const AddressesPage = () => {
               label="ZIP Code"
               {...register('zip_code', { required: 'ZIP code is required' })}
               error={errors.zip_code?.message}
+              onClick={(e) => e.stopPropagation()}
               required
             />
 
@@ -211,6 +216,7 @@ const AddressesPage = () => {
               {...register('country', { required: 'Country is required' })}
               defaultValue="USA"
               error={errors.country?.message}
+              onClick={(e) => e.stopPropagation()}
               required
             />
           </div>
@@ -221,6 +227,7 @@ const AddressesPage = () => {
               type="checkbox"
               {...register('is_default')}
               className="h-4 w-4 text-primary focus:ring-primary border-dark-300 rounded"
+              onClick={(e) => e.stopPropagation()}
             />
             <label htmlFor="is_default" className="ml-2 text-sm text-dark-900">
               Set as default address
