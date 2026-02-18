@@ -8,7 +8,6 @@ const Input = forwardRef(({
   required = false,
   className = '',
   helperText,
-  onClick,
   ...props
 }, ref) => {
   return (
@@ -23,7 +22,6 @@ const Input = forwardRef(({
         ref={ref}
         type={type}
         placeholder={placeholder}
-        onClick={onClick}
         className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-dark-900 ${
           error ? 'border-error' : 'border-dark-300'
         } ${className}`}

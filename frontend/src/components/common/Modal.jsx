@@ -61,7 +61,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
             </div>
             
             {/* Content */}
-            <div className="mt-2" onClick={(e) => e.stopPropagation()}>
+            <div className="mt-2">
               {children}
             </div>
           </div>
