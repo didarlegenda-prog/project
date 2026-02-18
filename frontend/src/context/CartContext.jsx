@@ -142,9 +142,14 @@ export const CartProvider = ({ children }) => {
   };
 
   // Calculate totals
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cartItems.reduce((sum, item) => {
+    // Prices from API are in cents (8400 = $84.00)
+    // Divide by 100 to convert to dollars
+    const priceInDollars = item.price / 100;
+    return sum + (priceInDollars * item.quantity);
+  }, 0);
   const tax = subtotal * 0.08; // 8% tax
-  const deliveryFee = restaurant?.delivery_fee || 0;
+  const deliveryFee = restaurant?.delivery_fee ? restaurant.delivery_fee / 100 : 0; // Also convert delivery fee from cents
   const total = subtotal + tax + deliveryFee - discount;
 
   const value = {
