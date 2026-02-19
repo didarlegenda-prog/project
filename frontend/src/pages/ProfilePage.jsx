@@ -136,34 +136,6 @@ const ProfilePage = () => {
               />
             </div>
 
-            {/* Preferences */}
-            <div className="border-t border-dark-200 pt-6 mb-6">
-              <h3 className="text-lg font-semibold text-dark-900 mb-4">Preferences</h3>
-              
-              <div className="space-y-4">
-                <Input
-                  label="Dietary Preferences"
-                  {...register('dietary_preferences')}
-                  placeholder="e.g., Vegetarian, Vegan, Gluten-Free"
-                  disabled={!isEditing}
-                />
-
-                <Input
-                  label="Favorite Cuisines"
-                  {...register('favorite_cuisines')}
-                  placeholder="e.g., Italian, Chinese, Mexican"
-                  disabled={!isEditing}
-                />
-
-                <Input
-                  label="Allergens"
-                  {...register('allergens')}
-                  placeholder="e.g., Nuts, Dairy, Shellfish"
-                  disabled={!isEditing}
-                />
-              </div>
-            </div>
-
             {/* Actions */}
             <div className="flex space-x-4">
               {!isEditing ? (

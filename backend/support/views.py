@@ -17,4 +17,8 @@ class SupportTicketViewSet(viewsets.ModelViewSet):
             return SupportTicket.objects.all()
         return SupportTicket.objects.filter(user=user)
 
+    def perform_create(self, serializer):
+        """Set user when creating ticket."""
+        serializer.save(user=self.request.user)
+
 
