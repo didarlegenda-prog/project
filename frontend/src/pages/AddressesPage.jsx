@@ -4,14 +4,13 @@ import { useForm } from 'react-hook-form';
 import { addressesAPI } from '../api/addresses';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
-import Modal from '../components/common/Modal';
 import Loading from '../components/common/Loading';
 import EmptyState from '../components/common/EmptyState';
-import { MapPin, Edit, Trash2, Plus } from 'lucide-react';
+import { MapPin, Edit, Trash2, Plus, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const AddressesPage = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
   const { data, isLoading, refetch } = useQuery({
@@ -21,18 +20,27 @@ const AddressesPage = () => {
 
   const addresses = data?.results || data || [];
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, formState: { errors, isDirty }, reset } = useForm();
 
   const handleAddNew = () => {
     setEditingAddress(null);
     reset({});
-    setShowModal(true);
+    setShowForm(true);
   };
 
   const handleEdit = (address) => {
     setEditingAddress(address);
     reset(address);
-    setShowModal(true);
+    setShowForm(true);
+  };
+
+  const handleCancelForm = () => {
+    if (isDirty && !confirm('You have unsaved changes. Are you sure you want to cancel?')) {
+      return;
+    }
+    setShowForm(false);
+    setEditingAddress(null);
+    reset({});
   };
 
   const handleDelete = async (addressId) => {
@@ -44,7 +52,7 @@ const AddressesPage = () => {
       await addressesAPI.delete(addressId);
       toast.success('Address deleted successfully!');
       refetch();
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete address');
     }
   };
@@ -54,7 +62,7 @@ const AddressesPage = () => {
       await addressesAPI.setDefault(addressId);
       toast.success('Default address updated!');
       refetch();
-    } catch (error) {
+    } catch {
       toast.error('Failed to set default address');
     }
   };
@@ -68,10 +76,11 @@ const AddressesPage = () => {
         await addressesAPI.create(data);
         toast.success('Address added successfully!');
       }
-      setShowModal(false);
+      setShowForm(false);
+      setEditingAddress(null);
       reset({});
       refetch();
-    } catch (error) {
+    } catch {
       toast.error('Failed to save address');
     }
   };
@@ -90,6 +99,93 @@ const AddressesPage = () => {
             Add Address
           </Button>
         </div>
+
+        {/* Inline Form */}
+        {showForm && (
+          <div className="mb-8 bg-white rounded-lg shadow-md p-6 border-2 border-blue-500 animate-slide-down">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-dark-900">{editingAddress ? 'Edit Address' : 'Add New Address'}</h2>
+              <button onClick={handleCancelForm} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <X className="h-5 w-5 text-gray-600" />
+              </button>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <Input
+                label="Label"
+                {...register('label', { required: 'Label is required' })}
+                placeholder="e.g., Home, Office"
+                error={errors.label?.message}
+                required
+              />
+
+              <Input
+                label="Street Address"
+                {...register('street', { required: 'Street address is required' })}
+                error={errors.street?.message}
+                required
+              />
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="City"
+                  {...register('city', { required: 'City is required' })}
+                  error={errors.city?.message}
+                  required
+                />
+
+                <Input
+                  label="State"
+                  {...register('state', { required: 'State is required' })}
+                  error={errors.state?.message}
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="ZIP Code"
+                  {...register('zip_code', { required: 'ZIP code is required' })}
+                  error={errors.zip_code?.message}
+                  required
+                />
+
+                <Input
+                  label="Country"
+                  {...register('country', { required: 'Country is required' })}
+                  defaultValue="USA"
+                  error={errors.country?.message}
+                  required
+                />
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  id="is_default"
+                  type="checkbox"
+                  {...register('is_default')}
+                  className="h-4 w-4 text-primary focus:ring-primary border-dark-300 rounded"
+                />
+                <label htmlFor="is_default" className="ml-2 text-sm text-dark-900">
+                  Set as default address
+                </label>
+              </div>
+
+              <div className="flex space-x-3 pt-4">
+                <Button type="submit" fullWidth>
+                  {editingAddress ? 'Update Address' : 'Add Address'}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  fullWidth
+                  onClick={handleCancelForm}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
+        )}
 
         {addresses.length === 0 ? (
           <EmptyState
@@ -156,95 +252,6 @@ const AddressesPage = () => {
           </div>
         )}
       </div>
-
-      {/* Add/Edit Modal */}
-      <Modal
-        isOpen={showModal}
-        onClose={() => {
-          setShowModal(false);
-          reset({});
-        }}
-        title={editingAddress ? 'Edit Address' : 'Add New Address'}
-      >
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <Input
-            label="Label"
-            {...register('label', { required: 'Label is required' })}
-            placeholder="e.g., Home, Office"
-            error={errors.label?.message}
-            required
-          />
-
-          <Input
-            label="Street Address"
-            {...register('street', { required: 'Street address is required' })}
-            error={errors.street?.message}
-            required
-          />
-
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="City"
-              {...register('city', { required: 'City is required' })}
-              error={errors.city?.message}
-              required
-            />
-
-            <Input
-              label="State"
-              {...register('state', { required: 'State is required' })}
-              error={errors.state?.message}
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="ZIP Code"
-              {...register('zip_code', { required: 'ZIP code is required' })}
-              error={errors.zip_code?.message}
-              required
-            />
-
-            <Input
-              label="Country"
-              {...register('country', { required: 'Country is required' })}
-              defaultValue="USA"
-              error={errors.country?.message}
-              required
-            />
-          </div>
-
-          <div className="flex items-center">
-            <input
-              id="is_default"
-              type="checkbox"
-              {...register('is_default')}
-              className="h-4 w-4 text-primary focus:ring-primary border-dark-300 rounded"
-            />
-            <label htmlFor="is_default" className="ml-2 text-sm text-dark-900">
-              Set as default address
-            </label>
-          </div>
-
-          <div className="flex space-x-3 pt-4">
-            <Button type="submit" fullWidth>
-              {editingAddress ? 'Update Address' : 'Add Address'}
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              fullWidth
-              onClick={() => {
-                setShowModal(false);
-                reset({});
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
-      </Modal>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, Bell, User, Menu, LogOut, Settings } from 'lucide-react';
+import { Search, ShoppingCart, Bell, User, Menu, LogOut, Settings, Tag } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../hooks/useCart';
@@ -74,6 +74,15 @@ const Header = ({ onMenuClick }) => {
 
           {/* Right: Icons and User Menu */}
           <div className="flex items-center space-x-4">
+            {/* Promotions */}
+            <Link
+              to="/promotions"
+              className="hidden lg:flex items-center px-3 py-2 rounded-md text-dark-600 hover:text-primary-600 hover:bg-dark-100 transition-colors"
+            >
+              <Tag className="h-5 w-5 mr-1" />
+              <span className="text-sm font-medium">Promotions</span>
+            </Link>
+
             {/* Cart */}
             <Link
               to="/cart"
@@ -124,6 +133,14 @@ const Header = ({ onMenuClick }) => {
                     >
                       <User className="h-4 w-4 mr-2" />
                       Profile
+                    </Link>
+                    <Link
+                      to="/promotions"
+                      className="flex items-center px-4 py-2 text-sm text-dark-700 hover:bg-dark-100 lg:hidden"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      <Tag className="h-4 w-4 mr-2" />
+                      Promotions
                     </Link>
                     <Link
                       to="/orders"
