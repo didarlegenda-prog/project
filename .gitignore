@@ -60,3 +60,4 @@ celerybeat.pid
 # Temporary files
 *.tmp
 /tmp/
+frontend/package-lock.json

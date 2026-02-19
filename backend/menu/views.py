@@ -18,4 +18,14 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     serializer_class = MenuItemSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def get_queryset(self):
+        queryset = MenuItem.objects.all()
+        restaurant_id = self.request.query_params.get('restaurant')
+        if restaurant_id:
+            queryset = queryset.filter(restaurant_id=restaurant_id)
+        category_id = self.request.query_params.get('category')
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        return queryset
+
 

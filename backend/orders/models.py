@@ -23,7 +23,6 @@ class Order(models.Model):
     ORDER_TYPE_CHOICES = [
         ('DELIVERY', 'Delivery'),
         ('PICKUP', 'Pickup'),
-        ('DINE_IN', 'Dine In'),
     ]
     
     PAYMENT_METHOD_CHOICES = [

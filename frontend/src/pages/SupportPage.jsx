@@ -207,7 +207,7 @@ const SupportPage = () => {
                                   {formatDateTime(comment.created_at)}
                                 </span>
                               </div>
-                              <p className="text-dark-700 text-sm">{comment.message}</p>
+                              <p className="text-dark-700 text-sm">{comment.comment}</p>
                             </div>
                           ))}
                         </div>
