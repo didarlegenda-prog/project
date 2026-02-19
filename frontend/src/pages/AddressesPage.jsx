@@ -57,16 +57,6 @@ const AddressesPage = () => {
     }
   };
 
-  const handleSetDefault = async (addressId) => {
-    try {
-      await addressesAPI.setDefault(addressId);
-      toast.success('Default address updated!');
-      refetch();
-    } catch {
-      toast.error('Failed to set default address');
-    }
-  };
-
   const onSubmit = async (data) => {
     try {
       if (editingAddress) {
@@ -237,15 +227,6 @@ const AddressesPage = () => {
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
-
-                  {!address.is_default && (
-                    <button
-                      onClick={() => handleSetDefault(address.id)}
-                      className="text-sm text-primary hover:text-primary-600"
-                    >
-                      Set as default
-                    </button>
-                  )}
                 </div>
               </div>
             ))}

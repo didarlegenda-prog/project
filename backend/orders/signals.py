@@ -7,6 +7,40 @@ from payments.models import Payment
 from notifications.models import Notification
 
 
+@receiver(post_save, sender=Order)
+def create_order_notification(sender, instance, created, **kwargs):
+    """Create notification when order is created or updated."""
+    if created:
+        Notification.objects.create(
+            user=instance.user,
+            notification_type='ORDER',
+            title='Order Placed Successfully',
+            message=f'Your order #{instance.order_number} has been placed at {instance.restaurant.name}. Total: ${instance.total}',
+        )
+    else:
+        if instance.status == 'CONFIRMED':
+            Notification.objects.create(
+                user=instance.user,
+                notification_type='ORDER',
+                title='Order Confirmed',
+                message=f'Your order #{instance.order_number} has been confirmed by {instance.restaurant.name}.',
+            )
+        elif instance.status == 'OUT_FOR_DELIVERY':
+            Notification.objects.create(
+                user=instance.user,
+                notification_type='ORDER',
+                title='Order Out for Delivery',
+                message=f'Your order #{instance.order_number} is on its way!',
+            )
+        elif instance.status == 'DELIVERED':
+            Notification.objects.create(
+                user=instance.user,
+                notification_type='ORDER',
+                title='Order Delivered',
+                message=f'Your order #{instance.order_number} has been delivered. Enjoy your meal!',
+            )
+
+
 @receiver(pre_save, sender=Order)
 def auto_confirm_cash_payment_on_delivery(sender, instance, **kwargs):
     """

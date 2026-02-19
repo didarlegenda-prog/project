@@ -1,18 +1,13 @@
-import { useQuery } from '@tanstack/react-query';
-import { notificationsAPI } from '../api/notifications';
 import { useNotifications } from '../hooks/useNotifications';
 import NotificationItem from '../components/notification/NotificationItem';
-import NotificationSettings from '../components/notification/NotificationSettings';
-import Modal from '../components/common/Modal';
 import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
 import EmptyState from '../components/common/EmptyState';
-import { Bell, Settings } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import { useState } from 'react';
 
 const NotificationsPage = () => {
   const { notifications, markAsRead, markAllAsRead, fetchNotifications } = useNotifications();
-  const [showSettings, setShowSettings] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleMarkAllAsRead = async () => {
@@ -52,12 +47,6 @@ const NotificationsPage = () => {
                 Mark all as read
               </Button>
             )}
-            <Button
-              variant="outline"
-              onClick={() => setShowSettings(true)}
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
           </div>
         </div>
 
@@ -81,15 +70,6 @@ const NotificationsPage = () => {
           )}
         </div>
       </div>
-
-      {/* Settings Modal */}
-      <Modal
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-        title="Notification Settings"
-      >
-        <NotificationSettings />
-      </Modal>
     </div>
   );
 };

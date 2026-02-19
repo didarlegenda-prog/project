@@ -106,6 +106,17 @@ const OrdersPage = () => {
                       </div>
                     </div>
 
+                    {/* Delivery Address */}
+                    {order.delivery_address && (
+                      <div className="mt-4 p-3 bg-dark-50 rounded-lg">
+                        <p className="text-sm font-medium text-dark-900 mb-1">Delivery Address</p>
+                        <p className="text-sm text-dark-600">{order.delivery_address.street_address || order.delivery_address.street}</p>
+                        <p className="text-sm text-dark-600">
+                          {order.delivery_address.city}, {order.delivery_address.state} {order.delivery_address.postal_code || order.delivery_address.zip_code}
+                        </p>
+                      </div>
+                    )}
+
                     {/* Total */}
                     <div className="border-t border-dark-200 pt-4 mt-4">
                       <div className="flex justify-between text-lg font-semibold">
