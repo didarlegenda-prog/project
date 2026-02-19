@@ -80,7 +80,16 @@ const RestaurantPage = () => {
 
             {/* Info */}
             <div className="flex-1">
-              <h1 className="text-3xl font-bold text-dark-900 mb-2">{restaurant.name}</h1>
+              <div className="flex items-center gap-3 mb-2">
+                <h1 className="text-3xl font-bold text-dark-900">{restaurant.name}</h1>
+                <span className={`text-sm font-semibold px-3 py-1 rounded-full ${
+                  restaurant.is_open_now
+                    ? 'bg-success-100 text-success-700'
+                    : 'bg-red-100 text-red-700'
+                }`}>
+                  {restaurant.is_open_now ? 'Open Now' : 'Closed'}
+                </span>
+              </div>
               <p className="text-dark-600 mb-4">{restaurant.description}</p>
               
               <div className="flex flex-wrap gap-4 text-sm">
