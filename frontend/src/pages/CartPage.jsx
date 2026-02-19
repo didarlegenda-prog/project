@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
 import CartItem from '../components/cart/CartItem';
@@ -34,6 +35,15 @@ const CartPage = () => {
     }
     navigate('/checkout');
   };
+
+  // Auto-apply pending promo code from promotions page
+  useEffect(() => {
+    const pendingPromo = localStorage.getItem('pending_promo_code');
+    if (pendingPromo && cartItems.length > 0 && !promoCode) {
+      applyPromoCode(pendingPromo);
+      localStorage.removeItem('pending_promo_code');
+    }
+  }, [cartItems, promoCode, applyPromoCode]);
 
   if (cartItems.length === 0) {
     return (

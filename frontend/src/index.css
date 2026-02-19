@@ -38,3 +38,19 @@ input:focus, textarea:focus, select:focus, button:focus {
   outline: 2px solid #2563EB;
   outline-offset: 2px;
 }
+
+/* Slide down animation for inline forms */
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}

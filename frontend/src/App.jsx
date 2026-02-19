@@ -27,6 +27,7 @@ import AddressesPage from './pages/AddressesPage';
 import NotificationsPage from './pages/NotificationsPage';
 import SupportPage from './pages/SupportPage';
 import NotFoundPage from './pages/NotFoundPage';
+import PromotionsPage from './pages/PromotionsPage';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -175,6 +176,14 @@ function App() {
                       <ProtectedRoute>
                         <SupportPage />
                       </ProtectedRoute>
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/promotions"
+                  element={
+                    <Layout>
+                      <PromotionsPage />
                     </Layout>
                   }
                 />

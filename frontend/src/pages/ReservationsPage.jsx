@@ -6,14 +6,13 @@ import { restaurantsAPI } from '../api/restaurants';
 import ReservationCard from '../components/reservation/ReservationCard';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
-import Modal from '../components/common/Modal';
 import Loading from '../components/common/Loading';
 import EmptyState from '../components/common/EmptyState';
-import { Calendar } from 'lucide-react';
+import { Calendar, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const ReservationsPage = () => {
-  const [showNewModal, setShowNewModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['reservations'],
@@ -28,7 +27,7 @@ const ReservationsPage = () => {
   const reservations = data?.results || data || [];
   const restaurants = restaurantsData?.results || restaurantsData || [];
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, formState: { errors, isDirty }, reset } = useForm();
 
   const handleCreateReservation = async (data) => {
     try {
@@ -43,13 +42,21 @@ const ReservationsPage = () => {
       });
       
       toast.success('Reservation created successfully!');
-      setShowNewModal(false);
+      setShowForm(false);
       reset();
       refetch();
     } catch (error) {
       const message = error.response?.data?.detail || 'Failed to create reservation';
       toast.error(message);
     }
+  };
+
+  const handleCancelForm = () => {
+    if (isDirty && !confirm('You have unsaved changes. Are you sure you want to cancel?')) {
+      return;
+    }
+    setShowForm(false);
+    reset();
   };
 
   const handleCancelReservation = async (reservationId) => {
@@ -75,10 +82,102 @@ const ReservationsPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold text-dark-900">My Reservations</h1>
-          <Button variant="success" size="lg" onClick={() => setShowNewModal(true)}>
+          <Button variant="success" size="lg" onClick={() => setShowForm(true)}>
             Make a Reservation
           </Button>
         </div>
+
+        {/* Inline Form */}
+        {showForm && (
+          <div className="mb-8 bg-white rounded-lg shadow-md p-6 border-2 border-blue-500 animate-slide-down">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-dark-900">Make a Reservation</h2>
+              <button onClick={handleCancelForm} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <X className="h-5 w-5 text-gray-600" />
+              </button>
+            </div>
+            <form onSubmit={handleSubmit(handleCreateReservation)} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-dark-700 mb-1">
+                  Restaurant <span className="text-error">*</span>
+                </label>
+                <select
+                  {...register('restaurant', { required: 'Restaurant is required' })}
+                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="">Select a restaurant</option>
+                  {restaurants.map((restaurant) => (
+                    <option key={restaurant.id} value={restaurant.id}>
+                      {restaurant.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.restaurant && (
+                  <p className="mt-1 text-sm text-error">{errors.restaurant.message}</p>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="Date"
+                  type="date"
+                  {...register('date', { required: 'Date is required' })}
+                  error={errors.date?.message}
+                  min={new Date().toISOString().split('T')[0]}
+                  required
+                />
+
+                <Input
+                  label="Time"
+                  type="time"
+                  {...register('time', { required: 'Time is required' })}
+                  error={errors.time?.message}
+                  required
+                />
+              </div>
+
+              <Input
+                label="Number of Guests"
+                type="number"
+                {...register('party_size', {
+                  required: 'Number of guests is required',
+                  min: { value: 1, message: 'At least 1 guest required' },
+                  max: { value: 20, message: 'Maximum 20 guests allowed' },
+                })}
+                error={errors.party_size?.message}
+                min="1"
+                max="20"
+                required
+              />
+
+              <div>
+                <label className="block text-sm font-medium text-dark-700 mb-1">
+                  Special Requests
+                </label>
+                <textarea
+                  {...register('special_requests')}
+                  rows="3"
+                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Any special requests or dietary restrictions..."
+                />
+              </div>
+
+              <div className="flex space-x-3">
+                <Button type="submit" fullWidth>
+                  Confirm Reservation
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  fullWidth
+                  onClick={handleCancelForm}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </div>
+        )}
 
         {reservations.length === 0 ? (
           <EmptyState
@@ -86,7 +185,7 @@ const ReservationsPage = () => {
             title="No reservations"
             message="You haven't made any reservations yet. Book a table now!"
             action={
-              <Button variant="success" size="lg" fullWidth onClick={() => setShowNewModal(true)}>
+              <Button variant="success" size="lg" fullWidth onClick={() => setShowForm(true)}>
                 Make Your First Reservation
               </Button>
             }
@@ -103,100 +202,6 @@ const ReservationsPage = () => {
           </div>
         )}
       </div>
-
-      {/* New Reservation Modal */}
-      <Modal
-        isOpen={showNewModal}
-        onClose={() => {
-          setShowNewModal(false);
-          reset();
-        }}
-        title="Make a Reservation"
-      >
-        <form onSubmit={handleSubmit(handleCreateReservation)} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-dark-700 mb-1">
-              Restaurant <span className="text-error">*</span>
-            </label>
-            <select
-              {...register('restaurant', { required: 'Restaurant is required' })}
-              className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="">Select a restaurant</option>
-              {restaurants.map((restaurant) => (
-                <option key={restaurant.id} value={restaurant.id}>
-                  {restaurant.name}
-                </option>
-              ))}
-            </select>
-            {errors.restaurant && (
-              <p className="mt-1 text-sm text-error">{errors.restaurant.message}</p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <Input
-              label="Date"
-              type="date"
-              {...register('date', { required: 'Date is required' })}
-              error={errors.date?.message}
-              min={new Date().toISOString().split('T')[0]}
-              required
-            />
-
-            <Input
-              label="Time"
-              type="time"
-              {...register('time', { required: 'Time is required' })}
-              error={errors.time?.message}
-              required
-            />
-          </div>
-
-          <Input
-            label="Number of Guests"
-            type="number"
-            {...register('party_size', {
-              required: 'Number of guests is required',
-              min: { value: 1, message: 'At least 1 guest required' },
-              max: { value: 20, message: 'Maximum 20 guests allowed' },
-            })}
-            error={errors.party_size?.message}
-            min="1"
-            max="20"
-            required
-          />
-
-          <div>
-            <label className="block text-sm font-medium text-dark-700 mb-1">
-              Special Requests
-            </label>
-            <textarea
-              {...register('special_requests')}
-              rows="3"
-              className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="Any special requests or dietary restrictions..."
-            />
-          </div>
-
-          <div className="flex space-x-3">
-            <Button type="submit" fullWidth>
-              Confirm Reservation
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              fullWidth
-              onClick={() => {
-                setShowNewModal(false);
-                reset();
-              }}
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
-      </Modal>
     </div>
   );
 };

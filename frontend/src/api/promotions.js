@@ -1,6 +1,12 @@
 import apiClient from './client';
 
 export const promotionsAPI = {
+  // Get all promotions with optional filters
+  getAll: async (params = {}) => {
+    const response = await apiClient.get('/promotions/', { params });
+    return response.data;
+  },
+
   // Validate promo code
   validate: async (code, orderData) => {
     const response = await apiClient.post('/promotions/validate/', {
