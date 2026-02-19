@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { reservationsAPI } from '../api/reservations';
@@ -13,6 +13,9 @@ import toast from 'react-hot-toast';
 
 const ReservationsPage = () => {
   const [showForm, setShowForm] = useState(false);
+  const [availableTables, setAvailableTables] = useState([]);
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [loadingTables, setLoadingTables] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['reservations'],
@@ -27,23 +30,62 @@ const ReservationsPage = () => {
   const reservations = data?.results || data || [];
   const restaurants = restaurantsData?.results || restaurantsData || [];
 
-  const { register, handleSubmit, formState: { errors, isDirty }, reset } = useForm();
+  const { register, handleSubmit, formState: { errors, isDirty }, reset, watch } = useForm();
+
+  const watchRestaurant = watch('restaurant');
+  const watchDate = watch('date');
+  const watchTime = watch('time');
+  const watchGuests = watch('party_size');
+
+  const fetchAvailableTables = async (restaurant, date, time, guests) => {
+    setLoadingTables(true);
+    try {
+      const tables = await reservationsAPI.getAvailableTables(
+        restaurant,
+        date,
+        time,
+        guests
+      );
+      setAvailableTables(tables?.results || tables || []);
+    } catch {
+      toast.error('Failed to fetch available tables');
+      setAvailableTables([]);
+    } finally {
+      setLoadingTables(false);
+    }
+  };
+
+  useEffect(() => {
+    if (watchRestaurant && watchDate && watchTime && watchGuests) {
+      fetchAvailableTables(watchRestaurant, watchDate, watchTime, watchGuests);
+    } else {
+      setAvailableTables([]);
+      setSelectedTable(null);
+    }
+  }, [watchRestaurant, watchDate, watchTime, watchGuests]);
 
   const handleCreateReservation = async (data) => {
+    if (!selectedTable) {
+      toast.error('Please select a table');
+      return;
+    }
+
     try {
-      // Combine date and time
       const dateTime = `${data.date}T${data.time}:00`;
       
       await reservationsAPI.create({
         restaurant: data.restaurant,
         date_time: dateTime,
         party_size: parseInt(data.party_size),
+        table: selectedTable,
         special_requests: data.special_requests || '',
       });
       
       toast.success('Reservation created successfully!');
       setShowForm(false);
       reset();
+      setAvailableTables([]);
+      setSelectedTable(null);
       refetch();
     } catch (error) {
       const message = error.response?.data?.detail || 'Failed to create reservation';
@@ -57,6 +99,8 @@ const ReservationsPage = () => {
     }
     setShowForm(false);
     reset();
+    setAvailableTables([]);
+    setSelectedTable(null);
   };
 
   const handleCancelReservation = async (reservationId) => {
@@ -149,6 +193,61 @@ const ReservationsPage = () => {
                 max="20"
                 required
               />
+
+              {/* Table Selection */}
+              {watchRestaurant && watchDate && watchTime && watchGuests && (
+                <div>
+                  <label className="block text-sm font-medium text-dark-700 mb-2">
+                    Select Table <span className="text-error">*</span>
+                  </label>
+                  {loadingTables ? (
+                    <div className="text-center py-8 text-dark-600">
+                      Loading available tables...
+                    </div>
+                  ) : availableTables.length === 0 ? (
+                    <div className="text-center py-8 bg-orange-50 rounded-lg border border-orange-200">
+                      <p className="text-orange-800 font-medium">No tables available</p>
+                      <p className="text-sm text-orange-600 mt-1">
+                        Try different date, time, or fewer guests
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                      {availableTables.map((table) => (
+                        <button
+                          key={table.id}
+                          type="button"
+                          onClick={() => setSelectedTable(table.id)}
+                          className={`p-4 border-2 rounded-lg transition-all ${
+                            selectedTable === table.id
+                              ? 'border-primary bg-primary-50'
+                              : 'border-dark-300 hover:border-primary'
+                          }`}
+                        >
+                          <div className="text-center">
+                            <div className="text-lg font-bold text-dark-900">
+                              Table {table.table_number}
+                            </div>
+                            <div className="text-sm text-dark-600 mt-1">
+                              🪑 Seats {table.capacity}
+                            </div>
+                            {table.location && (
+                              <div className="text-xs text-dark-500 mt-1">
+                                📍 {table.location}
+                              </div>
+                            )}
+                            {selectedTable === table.id && (
+                              <div className="mt-2 text-primary font-semibold text-sm">
+                                ✓ Selected
+                              </div>
+                            )}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-dark-700 mb-1">

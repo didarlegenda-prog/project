@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { ordersAPI } from '../api/orders';
 import OrderCard from '../components/order/OrderCard';
 import OrderStatusTracker from '../components/order/OrderStatusTracker';
-import Modal from '../components/common/Modal';
 import Loading from '../components/common/Loading';
 import EmptyState from '../components/common/EmptyState';
 import Button from '../components/common/Button';
@@ -12,8 +11,7 @@ import { formatCurrency, formatDateTime } from '../utils/formatters';
 import toast from 'react-hot-toast';
 
 const OrdersPage = () => {
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [expandedOrderId, setExpandedOrderId] = useState(null);
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['orders'],
@@ -23,8 +21,7 @@ const OrdersPage = () => {
   const orders = data?.results || data || [];
 
   const handleOrderClick = (order) => {
-    setSelectedOrder(order);
-    setShowModal(true);
+    setExpandedOrderId(expandedOrderId === order.id ? null : order.id);
   };
 
   const handleCancelOrder = async (orderId) => {
@@ -36,8 +33,8 @@ const OrdersPage = () => {
       await ordersAPI.cancel(orderId);
       toast.success('Order cancelled successfully');
       refetch();
-      setShowModal(false);
-    } catch (error) {
+      setExpandedOrderId(null);
+    } catch {
       toast.error('Failed to cancel order');
     }
   };
@@ -60,85 +57,89 @@ const OrdersPage = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {orders.map((order) => (
-              <OrderCard
-                key={order.id}
-                order={order}
-                onClick={handleOrderClick}
-              />
+              <div key={order.id} className="space-y-4">
+                {/* Order Card */}
+                <OrderCard
+                  order={order}
+                  onClick={handleOrderClick}
+                />
+
+                {/* Inline Expanded Details */}
+                {expandedOrderId === order.id && (
+                  <div className="bg-white rounded-lg shadow-md p-6 border-2 border-blue-500 animate-slide-down">
+                    {/* Status Tracker */}
+                    <OrderStatusTracker currentStatus={order.status} />
+
+                    {/* Order Details */}
+                    <div className="bg-dark-50 rounded-lg p-4 mt-4">
+                      <h3 className="font-semibold text-dark-900 mb-3">Order Details</h3>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-dark-600">Order Date:</span>
+                          <span className="font-medium">{formatDateTime(order.created_at)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-dark-600">Order Type:</span>
+                          <span className="font-medium">{order.order_type}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-dark-600">Payment Method:</span>
+                          <span className="font-medium">{order.payment_method}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Items */}
+                    <div className="mt-4">
+                      <h3 className="font-semibold text-dark-900 mb-3">Items</h3>
+                      <div className="space-y-2">
+                        {order.items?.map((item, index) => (
+                          <div key={index} className="flex justify-between text-sm">
+                            <span className="text-dark-700">
+                              {item.quantity}x {item.menu_item?.name || item.name}
+                            </span>
+                            <span className="font-medium">
+                              {formatCurrency(item.price * item.quantity)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Total */}
+                    <div className="border-t border-dark-200 pt-4 mt-4">
+                      <div className="flex justify-between text-lg font-semibold">
+                        <span>Total</span>
+                        <span>{formatCurrency(order.total_amount || order.total)}</span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="mt-6 flex gap-3">
+                      {order.status === 'PENDING' && (
+                        <Button
+                          variant="danger"
+                          fullWidth
+                          onClick={() => handleCancelOrder(order.id)}
+                        >
+                          Cancel Order
+                        </Button>
+                      )}
+                      <Button
+                        variant="outline"
+                        fullWidth
+                        onClick={() => setExpandedOrderId(null)}
+                      >
+                        Close Details
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ))}
           </div>
         )}
       </div>
-
-      {/* Order Details Modal */}
-      <Modal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        title={`Order #${selectedOrder?.id}`}
-        size="lg"
-      >
-        {selectedOrder && (
-          <div className="space-y-6">
-            {/* Status Tracker */}
-            <OrderStatusTracker currentStatus={selectedOrder.status} />
-
-            {/* Order Details */}
-            <div className="bg-dark-50 rounded-lg p-4">
-              <h3 className="font-semibold text-dark-900 mb-3">Order Details</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-dark-600">Order Date:</span>
-                  <span className="font-medium">{formatDateTime(selectedOrder.created_at)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-dark-600">Order Type:</span>
-                  <span className="font-medium">{selectedOrder.order_type}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-dark-600">Payment Method:</span>
-                  <span className="font-medium">{selectedOrder.payment_method}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Items */}
-            <div>
-              <h3 className="font-semibold text-dark-900 mb-3">Items</h3>
-              <div className="space-y-2">
-                {selectedOrder.items?.map((item, index) => (
-                  <div key={index} className="flex justify-between text-sm">
-                    <span className="text-dark-700">
-                      {item.quantity}x {item.menu_item?.name || item.name}
-                    </span>
-                    <span className="font-medium">
-                      {formatCurrency(item.price * item.quantity)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Total */}
-            <div className="border-t border-dark-200 pt-4">
-              <div className="flex justify-between text-lg font-semibold">
-                <span>Total</span>
-                <span>{formatCurrency(selectedOrder.total_amount || selectedOrder.total)}</span>
-              </div>
-            </div>
-
-            {/* Actions */}
-            {selectedOrder.status === 'PENDING' && (
-              <Button
-                variant="danger"
-                fullWidth
-                onClick={() => handleCancelOrder(selectedOrder.id)}
-              >
-                Cancel Order
-              </Button>
-            )}
-          </div>
-        )}
-      </Modal>
     </div>
   );
 };
