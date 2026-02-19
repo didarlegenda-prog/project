@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useCart } from '../hooks/useCart';
 import { useAuth } from '../hooks/useAuth';
 import CartItem from '../components/cart/CartItem';
@@ -37,13 +37,17 @@ const CartPage = () => {
   };
 
   // Auto-apply pending promo code from promotions page
-  useEffect(() => {
+  const handleAutoApplyPromo = useCallback(() => {
     const pendingPromo = localStorage.getItem('pending_promo_code');
     if (pendingPromo && cartItems.length > 0 && !promoCode) {
       applyPromoCode(pendingPromo);
       localStorage.removeItem('pending_promo_code');
     }
   }, [cartItems, promoCode, applyPromoCode]);
+
+  useEffect(() => {
+    handleAutoApplyPromo();
+  }, [handleAutoApplyPromo]);
 
   if (cartItems.length === 0) {
     return (

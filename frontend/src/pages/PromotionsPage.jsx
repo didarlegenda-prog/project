@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Copy, Check, Tag, Calendar, DollarSign, Percent, ArrowRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -13,11 +13,7 @@ const PromotionsPage = () => {
   const [filter, setFilter] = useState('all');
   const [copiedCode, setCopiedCode] = useState(null);
 
-  useEffect(() => {
-    fetchPromotions();
-  }, []);
-
-  const fetchPromotions = async () => {
+  const fetchPromotions = useCallback(async () => {
     try {
       const response = await api.get('/promotions/', {
         params: { is_active: true, ordering: '-discount_value' },
@@ -28,7 +24,11 @@ const PromotionsPage = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchPromotions();
+  }, [fetchPromotions]);
 
   const handleCopyCode = (code) => {
     navigator.clipboard.writeText(code);
