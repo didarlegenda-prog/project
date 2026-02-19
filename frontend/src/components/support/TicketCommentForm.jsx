@@ -12,7 +12,7 @@ const TicketCommentForm = ({ ticketId, onSuccess }) => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      await supportAPI.addComment(ticketId, { message: data.comment });
+      await supportAPI.addComment(ticketId, { comment: data.comment });
       toast.success('Comment added successfully!');
       reset();
       onSuccess?.();

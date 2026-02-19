@@ -1,4 +1,5 @@
 """Views for notifications app."""
+from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.decorators import action, api_view, permission_classes  # ← ДОБАВЬ
 from rest_framework.views import APIView
@@ -27,11 +28,12 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
         return Response({'success': True, 'marked_count': updated_count})
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], url_path='mark-as-read')
     def mark_as_read(self, request, pk=None):
         """Mark single notification as read."""
         notification = self.get_object()
         notification.is_read = True
+        notification.read_at = timezone.now()
         notification.save()
 
         serializer = self.get_serializer(notification)

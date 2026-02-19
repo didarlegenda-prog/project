@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { usersAPI } from '../api/users';
@@ -20,9 +20,31 @@ const ProfilePage = () => {
     queryFn: usersAPI.getProfile,
   });
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
-    values: profile || {},
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({
+    defaultValues: {
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone_number: '',
+      date_of_birth: '',
+    },
   });
+
+  const resetFormToProfile = (profileData) => {
+    if (profileData) {
+      setValue('first_name', profileData.first_name || '');
+      setValue('last_name', profileData.last_name || '');
+      setValue('email', profileData.email || '');
+      setValue('phone_number', profileData.phone_number || '');
+      setValue('date_of_birth', profileData.date_of_birth || '');
+    } else {
+      reset();
+    }
+  };
+
+  useEffect(() => {
+    resetFormToProfile(profile);
+  }, [profile, setValue]);
 
   const onSubmit = async (data) => {
     setIsSaving(true);
@@ -161,7 +183,7 @@ const ProfilePage = () => {
                     variant="outline"
                     onClick={() => {
                       setIsEditing(false);
-                      reset();
+                      resetFormToProfile(profile);
                     }}
                   >
                     Cancel
