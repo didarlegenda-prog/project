@@ -24,6 +24,10 @@ export const CartProvider = ({ children }) => {
     if (savedPromo) {
       setPromoCode(savedPromo);
     }
+    const savedDiscount = localStorage.getItem('promo_discount');
+    if (savedDiscount) {
+      setDiscount(Number(savedDiscount));
+    }
   }, []);
 
   // Save cart to localStorage whenever it changes
@@ -124,13 +128,16 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem('cart');
     localStorage.removeItem('cart_restaurant');
     localStorage.removeItem('promo_code');
+    localStorage.removeItem('promo_discount');
     toast.success('Cart cleared');
   };
 
   const applyPromoCode = (code, discountAmount) => {
+    const amount = Number(discountAmount) || 0;
     setPromoCode(code);
-    setDiscount(discountAmount);
+    setDiscount(amount);
     localStorage.setItem('promo_code', code);
+    localStorage.setItem('promo_discount', String(amount));
     toast.success('Promo code applied!');
   };
 
@@ -138,6 +145,7 @@ export const CartProvider = ({ children }) => {
     setPromoCode(null);
     setDiscount(0);
     localStorage.removeItem('promo_code');
+    localStorage.removeItem('promo_discount');
     toast.success('Promo code removed');
   };
 

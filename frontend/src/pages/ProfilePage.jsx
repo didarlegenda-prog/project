@@ -50,7 +50,11 @@ const ProfilePage = () => {
     setIsSaving(true);
     try {
       // Update profile
-      const updated = await usersAPI.updateProfile(data);
+      const formattedData = {
+        ...data,
+        date_of_birth: data.date_of_birth || null,
+      };
+      const updated = await usersAPI.updateProfile(formattedData);
       updateUser(updated);
       toast.success('Profile updated successfully!');
       setIsEditing(false);
