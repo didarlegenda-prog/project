@@ -74,13 +74,15 @@ class UserSerializer(serializers.ModelSerializer):
 
 class AddressSerializer(serializers.ModelSerializer):
     """Serializer for user addresses."""
-    
+
+    address_type_display = serializers.CharField(source='get_address_type_display', read_only=True)
+
     class Meta:
         model = Address
-        fields = ['id', 'address_type', 'street_address', 'apartment_number', 'city', 
-                  'state', 'postal_code', 'country', 'is_default', 'latitude', 'longitude', 
-                  'created_at']
-        read_only_fields = ['id', 'created_at']
+        fields = ['id', 'address_type', 'address_type_display', 'street_address', 'apartment_number', 'city',
+                  'state', 'postal_code', 'country', 'is_default', 'latitude', 'longitude',
+                  'created_at', 'updated_at']
+        read_only_fields = ['id', 'created_at', 'updated_at']
     
     def validate(self, attrs):
         """Validate address data."""

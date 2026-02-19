@@ -100,18 +100,27 @@ const AddressesPage = () => {
               </button>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <Input
-                label="Label"
-                {...register('label', { required: 'Label is required' })}
-                placeholder="e.g., Home, Office"
-                error={errors.label?.message}
-                required
-              />
+              <div>
+                <label className="block text-sm font-medium text-dark-700 mb-1">
+                  Address Type <span className="text-error">*</span>
+                </label>
+                <select
+                  {...register('address_type', { required: 'Address type is required' })}
+                  className="w-full px-4 py-2 border border-dark-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                >
+                  <option value="HOME">Home</option>
+                  <option value="WORK">Work</option>
+                  <option value="OTHER">Other</option>
+                </select>
+                {errors.address_type && (
+                  <p className="mt-1 text-sm text-error">{errors.address_type.message}</p>
+                )}
+              </div>
 
               <Input
                 label="Street Address"
-                {...register('street', { required: 'Street address is required' })}
-                error={errors.street?.message}
+                {...register('street_address', { required: 'Street address is required' })}
+                error={errors.street_address?.message}
                 required
               />
 
@@ -134,8 +143,8 @@ const AddressesPage = () => {
               <div className="grid grid-cols-2 gap-4">
                 <Input
                   label="ZIP Code"
-                  {...register('zip_code', { required: 'ZIP code is required' })}
-                  error={errors.zip_code?.message}
+                  {...register('postal_code', { required: 'ZIP code is required' })}
+                  error={errors.postal_code?.message}
                   required
                 />
 
@@ -195,7 +204,7 @@ const AddressesPage = () => {
                   <div className="flex-1">
                     <div className="flex items-center space-x-2 mb-1">
                       <h3 className="font-semibold text-dark-900">
-                        {address.label || 'Address'}
+                        {address.address_type_display || address.address_type || 'Address'}
                       </h3>
                       {address.is_default && (
                         <span className="text-xs px-2 py-1 bg-primary-100 text-primary-800 rounded-full">
@@ -204,10 +213,10 @@ const AddressesPage = () => {
                       )}
                     </div>
                     <p className="text-sm text-dark-600">
-                      {address.street}
+                      {address.street_address}
                     </p>
                     <p className="text-sm text-dark-600">
-                      {address.city}, {address.state} {address.zip_code}
+                      {address.city}, {address.state} {address.postal_code}
                     </p>
                   </div>
                 </div>
