@@ -5,11 +5,12 @@ from support.models import SupportTicket, TicketComment
 
 class TicketCommentSerializer(serializers.ModelSerializer):
     user_name = serializers.SerializerMethodField()
+    user_email = serializers.EmailField(source='user.email', read_only=True)
 
     class Meta:
         model = TicketComment
-        fields = ['id', 'ticket', 'user', 'user_name', 'comment', 'is_staff_response', 'created_at', 'updated_at']
-        read_only_fields = ['user', 'ticket', 'user_name', 'is_staff_response', 'created_at', 'updated_at']
+        fields = ['id', 'ticket', 'user', 'user_email', 'user_name', 'comment', 'is_staff_response', 'created_at', 'updated_at']
+        read_only_fields = ['user', 'ticket', 'user_email', 'user_name', 'is_staff_response', 'created_at', 'updated_at']
 
     def get_user_name(self, obj):
         return obj.user.get_full_name() or obj.user.email

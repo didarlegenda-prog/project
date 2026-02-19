@@ -201,7 +201,7 @@ const SupportPage = () => {
                             <div key={comment.id} className="bg-dark-50 rounded-lg p-3">
                               <div className="flex items-start justify-between mb-1">
                                 <span className="font-medium text-dark-900 text-sm">
-                                  {comment.user?.first_name || comment.user?.username || 'User'}
+                                  {comment.user_name || 'User'}
                                 </span>
                                 <span className="text-xs text-dark-500">
                                   {formatDateTime(comment.created_at)}

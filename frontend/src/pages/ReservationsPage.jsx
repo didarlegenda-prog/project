@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { reservationsAPI } from '../api/reservations';
 import { restaurantsAPI } from '../api/restaurants';
+import { useAuth } from '../hooks/useAuth';
 import ReservationCard from '../components/reservation/ReservationCard';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
@@ -16,6 +17,7 @@ const ReservationsPage = () => {
   const [availableTables, setAvailableTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
   const [loadingTables, setLoadingTables] = useState(false);
+  const { user } = useAuth();
 
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['reservations'],
@@ -75,13 +77,14 @@ const ReservationsPage = () => {
     }
 
     try {
-      const dateTime = `${data.date}T${data.time}:00`;
-      
       await reservationsAPI.create({
         restaurant: data.restaurant,
-        date_time: dateTime,
-        party_size: parseInt(data.party_size),
         table: selectedTable,
+        reservation_date: data.date,
+        reservation_time: data.time,
+        guests_count: parseInt(data.party_size),
+        phone: data.phone || user?.phone_number || '',
+        email: data.email || user?.email || '',
         special_requests: data.special_requests || '',
       });
       
@@ -259,6 +262,22 @@ const ReservationsPage = () => {
                   )}
                 </div>
               )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <Input
+                  label="Phone"
+                  type="tel"
+                  {...register('phone')}
+                  placeholder={user?.phone_number || 'Your phone number'}
+                />
+
+                <Input
+                  label="Email"
+                  type="email"
+                  {...register('email')}
+                  placeholder={user?.email || 'Your email'}
+                />
+              </div>
 
               <div>
                 <label className="block text-sm font-medium text-dark-700 mb-1">
