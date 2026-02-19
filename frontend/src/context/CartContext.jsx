@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
       setRestaurant(JSON.parse(savedRestaurant));
     }
     if (savedPromo) {
-      setPromoCode(JSON.parse(savedPromo));
+      setPromoCode(savedPromo);
     }
   }, []);
 
@@ -130,7 +130,7 @@ export const CartProvider = ({ children }) => {
   const applyPromoCode = (code, discountAmount) => {
     setPromoCode(code);
     setDiscount(discountAmount);
-    localStorage.setItem('promo_code', JSON.stringify({ code, discount: discountAmount }));
+    localStorage.setItem('promo_code', code);
     toast.success('Promo code applied!');
   };
 
