@@ -9,13 +9,13 @@ export const notificationsAPI = {
 
   // Mark notification as read
   markAsRead: async (notificationId) => {
-    const response = await apiClient.post(`/notifications/${notificationId}/mark-read/`);
+    const response = await apiClient.post(`/notifications/${notificationId}/mark-as-read/`);
     return response.data;
   },
 
   // Mark all as read
   markAllAsRead: async () => {
-    const response = await apiClient.post('/notifications/mark-all-read/');
+    const response = await apiClient.post('/notifications/mark-all-as-read/');
     return response.data;
   },
 

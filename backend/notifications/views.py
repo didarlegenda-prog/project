@@ -1,6 +1,6 @@
 """Views for notifications app."""
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, permission_classes  # ← ДОБАВЬ
+from rest_framework.decorators import action, api_view, permission_classes  # ← ДОБАВЬ
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +16,26 @@ class NotificationViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         return Notification.objects.filter(user=self.request.user)
+
+    @action(detail=False, methods=['post'])
+    def mark_all_as_read(self, request):
+        """Mark all notifications as read for current user."""
+        updated_count = Notification.objects.filter(
+            user=request.user,
+            is_read=False
+        ).update(is_read=True)
+
+        return Response({'success': True, 'marked_count': updated_count})
+
+    @action(detail=True, methods=['post'])
+    def mark_as_read(self, request, pk=None):
+        """Mark single notification as read."""
+        notification = self.get_object()
+        notification.is_read = True
+        notification.save()
+
+        serializer = self.get_serializer(notification)
+        return Response(serializer.data)
 
 
 class NotificationSettingsView(APIView):

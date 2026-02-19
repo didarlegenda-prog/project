@@ -4,10 +4,12 @@ from support.models import SupportTicket, TicketComment
 
 
 class TicketCommentSerializer(serializers.ModelSerializer):
+    user_name = serializers.CharField(source='user.get_full_name', read_only=True)
+
     class Meta:
         model = TicketComment
         fields = '__all__'
-        read_only_fields = ['user']
+        read_only_fields = ['user', 'ticket', 'created_at']
 
 
 class SupportTicketSerializer(serializers.ModelSerializer):

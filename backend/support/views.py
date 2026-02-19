@@ -1,8 +1,10 @@
 """Views for support app."""
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from support.models import SupportTicket
-from support.serializers.support_serializers import SupportTicketSerializer
+from rest_framework.response import Response
+from support.models import SupportTicket, TicketComment
+from support.serializers.support_serializers import SupportTicketSerializer, TicketCommentSerializer
 
 
 class SupportTicketViewSet(viewsets.ModelViewSet):
@@ -20,5 +22,21 @@ class SupportTicketViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Set user when creating ticket."""
         serializer.save(user=self.request.user)
+
+    @action(detail=True, methods=['get', 'post'])
+    def comments(self, request, pk=None):
+        """Get or create comments for a ticket."""
+        ticket = self.get_object()
+
+        if request.method == 'GET':
+            comments = ticket.comments.all().order_by('created_at')
+            serializer = TicketCommentSerializer(comments, many=True)
+            return Response(serializer.data)
+
+        serializer = TicketCommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(ticket=ticket, user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

@@ -37,6 +37,10 @@ const ReservationsPage = () => {
   const watchTime = watch('time');
   const watchGuests = watch('party_size');
 
+  const selectedRestaurant = restaurants.find(
+    (r) => String(r.id) === String(watchRestaurant)
+  );
+
   const fetchAvailableTables = async (restaurant, date, time, guests) => {
     setLoadingTables(true);
     try {
@@ -160,6 +164,13 @@ const ReservationsPage = () => {
                   <p className="mt-1 text-sm text-error">{errors.restaurant.message}</p>
                 )}
               </div>
+
+              {selectedRestaurant && !selectedRestaurant.is_open_now && (
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-lg">
+                  <p className="font-medium">⚠️ This restaurant is currently closed</p>
+                  <p className="text-sm mt-1">Please check business hours before making a reservation.</p>
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-4">
                 <Input
