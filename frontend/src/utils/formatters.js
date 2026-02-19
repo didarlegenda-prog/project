@@ -28,13 +28,16 @@ export const formatRelativeTime = (date) => {
   return formatDistanceToNow(dateObj, { addSuffix: true });
 };
 
-// Format currency
+// Format currency - ИСПРАВЛЕНО
 export const formatCurrency = (amount, currency = 'USD') => {
   if (amount === null || amount === undefined) return '';
+  
+  const dollars = amount;
+  
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency,
-  }).format(amount);
+  }).format(dollars);
 };
 
 // Format phone number

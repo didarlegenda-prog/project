@@ -143,14 +143,22 @@ export const CartProvider = ({ children }) => {
 
   // Calculate totals
   const subtotal = cartItems.reduce((sum, item) => {
-    // Prices from API are in cents (8400 = $84.00)
-    // Divide by 100 to convert to dollars
-    const priceInDollars = item.price / 100;
+    const priceInDollars = item.price;
     return sum + (priceInDollars * item.quantity);
   }, 0);
-  const tax = subtotal * 0.08; // 8% tax
-  const deliveryFee = restaurant?.delivery_fee ? restaurant.delivery_fee / 100 : 0; // Also convert delivery fee from cents
-  const total = subtotal + tax + deliveryFee - discount;
+  const tax = subtotal * 0.12; 
+  const deliveryFee = Number(restaurant?.delivery_fee) || 0;
+  const total = Number(subtotal) + Number(tax) + Number(deliveryFee) - Number(discount);
+
+  console.log('=== CART DEBUG ===');
+  console.log('Item prices:', cartItems.map(i => i.price));
+  console.log('Subtotal (raw):', subtotal);
+  console.log('Tax:', tax);
+  console.log('Delivery:', deliveryFee);
+  console.log('Discount:', discount);
+  console.log('Total (raw):', total);
+  console.log('==================');
+
 
   const value = {
     cartItems,
@@ -169,6 +177,6 @@ export const CartProvider = ({ children }) => {
     applyPromoCode,
     removePromoCode,
   };
-
+  
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
