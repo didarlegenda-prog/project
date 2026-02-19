@@ -23,7 +23,7 @@ const PromotionsPage = () => {
         params: { is_active: true, ordering: '-discount_value' },
       });
       setPromotions(response.data.results || response.data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to load promotions');
     } finally {
       setLoading(false);

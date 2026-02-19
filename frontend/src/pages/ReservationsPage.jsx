@@ -68,7 +68,7 @@ const ReservationsPage = () => {
       await reservationsAPI.cancel(reservationId);
       toast.success('Reservation cancelled successfully');
       refetch();
-    } catch (error) {
+    } catch {
       toast.error('Failed to cancel reservation');
     }
   };

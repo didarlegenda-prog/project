@@ -52,7 +52,7 @@ const AddressesPage = () => {
       await addressesAPI.delete(addressId);
       toast.success('Address deleted successfully!');
       refetch();
-    } catch (error) {
+    } catch {
       toast.error('Failed to delete address');
     }
   };
@@ -62,7 +62,7 @@ const AddressesPage = () => {
       await addressesAPI.setDefault(addressId);
       toast.success('Default address updated!');
       refetch();
-    } catch (error) {
+    } catch {
       toast.error('Failed to set default address');
     }
   };
@@ -80,7 +80,7 @@ const AddressesPage = () => {
       setEditingAddress(null);
       reset({});
       refetch();
-    } catch (error) {
+    } catch {
       toast.error('Failed to save address');
     }
   };
