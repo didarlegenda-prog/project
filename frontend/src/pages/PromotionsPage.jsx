@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Copy, Check, Tag, Calendar, DollarSign, Percent, ArrowRight } from 'lucide-react';
+import { Copy, Check, Tag, Calendar, DollarSign, ArrowRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import api from '../api/client';
 import Button from '../components/common/Button';
@@ -10,7 +10,6 @@ const PromotionsPage = () => {
   const navigate = useNavigate();
   const [promotions, setPromotions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
   const [copiedCode, setCopiedCode] = useState(null);
 
   const fetchPromotions = useCallback(async () => {
@@ -43,14 +42,17 @@ const PromotionsPage = () => {
     navigate('/cart');
   };
 
-  const filteredPromotions = promotions.filter(promo => 
-    filter === 'all' || promo.discount_type === filter
-  );
-
   const getDiscountDisplay = (promo) => {
-    return promo.discount_type === 'percentage'
-      ? `${promo.discount_value}% OFF`
-      : `$${(promo.discount_value / 100).toFixed(2)} OFF`;
+    if (promo.promotion_type === 'PERCENTAGE' && promo.discount_percentage) {
+      return `${parseFloat(promo.discount_percentage)}% OFF`;
+    } else if (promo.promotion_type === 'FIXED' && promo.discount_amount) {
+      return `$${parseFloat(promo.discount_amount).toFixed(2)} OFF`;
+    } else if (promo.discount_type === 'PERCENTAGE' && promo.discount_value) {
+      return `${parseFloat(promo.discount_value)}% OFF`;
+    } else if (promo.discount_value) {
+      return `$${parseFloat(promo.discount_value).toFixed(2)} OFF`;
+    }
+    return '';
   };
 
   if (loading) {
@@ -67,19 +69,7 @@ const PromotionsPage = () => {
           <p className="text-lg text-gray-600">Save money with our exclusive promo codes!</p>
         </div>
 
-        <div className="flex gap-3 mb-6 flex-wrap">
-          <Button variant={filter === 'all' ? 'primary' : 'outline'} onClick={() => setFilter('all')} size="sm">
-            All Promos
-          </Button>
-          <Button variant={filter === 'percentage' ? 'primary' : 'outline'} onClick={() => setFilter('percentage')} size="sm">
-            <Percent className="h-4 w-4 mr-1" /> Percentage Off
-          </Button>
-          <Button variant={filter === 'fixed_amount' ? 'primary' : 'outline'} onClick={() => setFilter('fixed_amount')} size="sm">
-            <DollarSign className="h-4 w-4 mr-1" /> Fixed Amount
-          </Button>
-        </div>
-
-        {filteredPromotions.length === 0 ? (
+        {promotions.length === 0 ? (
           <div className="text-center py-12">
             <Tag className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-700 mb-2">No promotions available</h3>
@@ -87,7 +77,7 @@ const PromotionsPage = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPromotions.map(promo => (
+            {promotions.map(promo => (
               <div key={promo.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 border-gray-200">
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 text-center">
                   <div className="text-3xl font-bold mb-1">{getDiscountDisplay(promo)}</div>
@@ -106,16 +96,16 @@ const PromotionsPage = () => {
                     </div>
                   </div>
                   <div className="space-y-2 mb-4">
-                    {promo.min_order_amount > 0 && (
+                    {promo.minimum_order_amount > 0 && (
                       <div className="flex items-center text-sm text-gray-600">
                         <DollarSign className="h-4 w-4 mr-2 text-gray-400" />
-                        Min order: ${(promo.min_order_amount / 100).toFixed(2)}
+                        Min order: ${parseFloat(promo.minimum_order_amount).toFixed(2)}
                       </div>
                     )}
-                    {promo.valid_until && (
+                    {promo.end_date && (
                       <div className="flex items-center text-sm text-gray-600">
                         <Calendar className="h-4 w-4 mr-2 text-gray-400" />
-                        Valid until {formatDate(promo.valid_until)}
+                        Valid until {formatDate(promo.end_date)}
                       </div>
                     )}
                   </div>

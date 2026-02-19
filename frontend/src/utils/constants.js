@@ -2,7 +2,6 @@
 export const ORDER_TYPES = {
   DELIVERY: 'DELIVERY',
   PICKUP: 'PICKUP',
-  DINE_IN: 'DINE_IN',
 };
 
 export const ORDER_STATUSES = {

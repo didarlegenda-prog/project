@@ -205,12 +205,15 @@ const CheckoutPage = () => {
                             onChange={() => setSelectedAddress(address.id)}
                             className="mt-1 mr-3"
                           />
-                          <div>
+                           <div>
                             <p className="font-medium text-dark-900">
                               {address.label || 'Address'}
                             </p>
-                            <p className="text-sm text-dark-600">
-                              {address.street}, {address.city}, {address.state} {address.zip_code}
+                            <p className="text-dark-700">
+                              {address.street_address || address.street}
+                            </p>
+                            <p className="text-sm text-dark-500">
+                              {address.city}, {address.state} {address.postal_code || address.zip_code}
                             </p>
                           </div>
                         </label>
