@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.utils.dateparse import parse_date
+from django.utils import timezone
 from datetime import datetime
 from reservations.models import Reservation
 from reservations.serializers.reservation_serializers import ReservationSerializer
@@ -28,10 +29,6 @@ class ReservationViewSet(viewsets.ModelViewSet):
         elif user.role == 'ADMIN':
             return Reservation.objects.all()
         return Reservation.objects.none()
-
-    def perform_create(self, serializer):
-        """Set the user when creating a reservation."""
-        serializer.save(user=self.request.user)
 
     @action(detail=False, methods=['get'], url_path='available-tables')
     def available_tables(self, request):
@@ -97,4 +94,27 @@ class ReservationViewSet(viewsets.ModelViewSet):
             'count': len(available_tables)
         })
 
-
+    @action(detail=True, methods=['post'])
+    def cancel(self, request, pk=None):
+        """Cancel a reservation."""
+        reservation = self.get_object()
+        
+        if reservation.status == 'CANCELLED':
+            return Response(
+                {'error': 'Reservation is already cancelled'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if reservation.status in ['COMPLETED', 'NO_SHOW']:
+            return Response(
+                {'error': f'Cannot cancel a reservation with status: {reservation.status}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        reservation.status = 'CANCELLED'
+        reservation.cancelled_at = timezone.now()
+        reservation.cancellation_reason = request.data.get('reason', 'Cancelled by user')
+        reservation.save()
+        
+        serializer = self.get_serializer(reservation)
+        return Response(serializer.data)
