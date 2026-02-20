@@ -29,6 +29,10 @@ class ReservationViewSet(viewsets.ModelViewSet):
             return Reservation.objects.all()
         return Reservation.objects.none()
 
+    def perform_create(self, serializer):
+        """Set the user when creating a reservation."""
+        serializer.save(user=self.request.user)
+
     @action(detail=False, methods=['get'], url_path='available-tables')
     def available_tables(self, request):
         """Get available tables for a restaurant on a specific date/time."""
